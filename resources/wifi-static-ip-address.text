@@ -1,0 +1,25 @@
+
+This is a response that worked for this project.  It was by northernguardian » Tue Apr 16, 2013 3:37 am
+
+http://www.raspberrypi.org/phpBB3/viewtopic.php?f=26&t=22660
+
+Thought I would post what I found. The other settings I researched weren't working on my system. This works for me at boot also.
+
+I'm using an old Linksys wireless-G network adapter, I can provide the model if necessary.
+
+I only use this wireless and no other connections, ie ethernet. I haven't figured out this setting yet, but if I remove/comment out the "auto lo and iface lo inet loopback" it doesn't work. The "allow-hotplug" lets my device connect to the raspberrypi. "WPA-roam" does NOT work with wlan0 set as static. That's why at the bottom you have to define the default settings as static and declare the address settings.(The default overrides the wlan0 which is why this sticks? Not sure yet.) 
+
+I saw some posts set a network address setting at the bottom, but it didn't make me specify an address. I did not have to edit the wpa_supplicant.conf file either.
+
+CODE: SELECT ALL
+auto lo
+iface lo inet loopback
+
+allow-hotplug wlan0
+iface wlan0 inet manual
+wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+iface default inet static
+address 192.168.x.xxx
+netmask 255.255.255.0
+gateway 192.168.x.x

@@ -1,0 +1,5 @@
+
+
+To set the timezone for my location, the following was used
+
+	 sudo cp /usr/share/zoneinfo/US/Central /etc/localtime 

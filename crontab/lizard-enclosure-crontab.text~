@@ -1,0 +1,5 @@
+# m   h   dom mon dow   command
+30 19 *   *   *     curl http://localhost:9080/lizard-enclosure/Gateway?power=off
+
+30 6 *   *   *     curl http://localhost:9080/lizard-enclosure/Gateway?power=on
+
