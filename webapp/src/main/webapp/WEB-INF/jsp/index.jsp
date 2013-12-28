@@ -16,7 +16,7 @@
 
             <div class="featuredProject">
                 <center>
-                    <a href="${pageContext.request.contextPath}/Gateway?uvLight=${uvLightAction}">
+                    <a href="${pageContext.request.contextPath}/gateway?uvLight=${uvLightAction}">
                         <img src="images/${imagePath}">
                         <br/>
                         <b>${uvLightState}</b>
