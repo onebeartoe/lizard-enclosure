@@ -1,4 +1,6 @@
 
+package org.onebeartoe.lizard.enclosure.servlet;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

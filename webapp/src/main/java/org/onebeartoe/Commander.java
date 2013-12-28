@@ -1,12 +1,7 @@
 
 package onebeartoe;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.*;
 
 public class Commander 
 {
@@ -59,6 +54,7 @@ public class Commander
 		while ((s = stdInput.readLine()) != null) 
 		{
 			stdout.append(s);
+                        stdout.append( System.lineSeparator() );
 			System.out.println(s);				
 		}
 
@@ -70,6 +66,7 @@ public class Commander
 		while ((s = stdError.readLine()) != null) 
 		{
 			stderr.append(s);
+                        stdout.append( System.lineSeparator() );
 			System.out.println(s);
 		}
 			
