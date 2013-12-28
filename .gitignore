@@ -6,3 +6,5 @@
 *.ear
 *.md~
 
+/webapp/target/
+
