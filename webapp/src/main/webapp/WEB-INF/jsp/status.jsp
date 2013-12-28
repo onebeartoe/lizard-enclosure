@@ -7,9 +7,15 @@
                 <center>
                     UV Light:
                     <br/>
-                    ${stdout}
+<pre>                    
+${stdout}
+</pre>
                     <br/>
-                    <b>${stderr}</b>
+                    <b>
+<pre>                    
+${stderr}
+</pre>
+                    </b>
                     
                 </center>
             
