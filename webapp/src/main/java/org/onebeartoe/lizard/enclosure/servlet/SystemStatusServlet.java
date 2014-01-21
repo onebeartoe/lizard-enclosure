@@ -44,7 +44,7 @@ public class SystemStatusServlet extends HttpServlet
         
         
         ServletContext context = getServletContext();
-        RequestDispatcher rd = context.getRequestDispatcher("/status.jsp");
+        RequestDispatcher rd = context.getRequestDispatcher("/dashboard.jsp");
         rd.forward(request, response);
     }
 }
