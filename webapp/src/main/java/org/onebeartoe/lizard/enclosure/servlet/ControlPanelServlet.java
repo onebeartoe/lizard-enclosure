@@ -21,7 +21,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
 @WebServlet(urlPatterns = {"/control-panel"})
-public class GatewayServlet extends HttpServlet 
+public class ControlPanelServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class GatewayServlet extends HttpServlet
     @Inject
     private LizardEnclosure enclosure;
     
-    public GatewayServlet() 
+    public ControlPanelServlet() 
     {
         super();
         
@@ -134,5 +134,5 @@ public class GatewayServlet extends HttpServlet
     {
         return "This is webapp to control and monitor a lizard enclosure.";
     }
-    
+
 }
