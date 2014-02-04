@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import onebeartoe.Commander;
+import org.onebeartoe.Commander;
 
 @WebServlet(urlPatterns = {"/status"})
 public class SystemStatusServlet extends HttpServlet
