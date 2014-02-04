@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.onebeartoe.Commander;
 
-@WebServlet(urlPatterns = {"/status"})
-public class SystemStatusServlet extends HttpServlet
+@WebServlet(urlPatterns = {"/dashboard"})
+public class DashboardServlet extends HttpServlet
 {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        Logger logger = Logger.getLogger(SystemStatusServlet.class.getName());
+        Logger logger = Logger.getLogger(DashboardServlet.class.getName());
         
         StringBuilder stderr = null;
         StringBuilder stdout = null;
@@ -44,7 +44,7 @@ public class SystemStatusServlet extends HttpServlet
         
         
         ServletContext context = getServletContext();
-        RequestDispatcher rd = context.getRequestDispatcher("/status.jsp");
+        RequestDispatcher rd = context.getRequestDispatcher("/index.jsp");
         rd.forward(request, response);
     }
 }

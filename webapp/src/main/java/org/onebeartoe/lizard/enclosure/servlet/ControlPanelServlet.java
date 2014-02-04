@@ -1,6 +1,7 @@
 
 package org.onebeartoe.lizard.enclosure.servlet;
 
+import org.onebeartoe.lizard.enclosure.LizardEnclosure;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +20,8 @@ import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
-@WebServlet(urlPatterns = {"/gateway"})
-public class Gateway extends HttpServlet 
+@WebServlet(urlPatterns = {"/control-panel"})
+public class ControlPanelServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
 
@@ -33,7 +34,7 @@ public class Gateway extends HttpServlet
     @Inject
     private LizardEnclosure enclosure;
     
-    public Gateway() 
+    public ControlPanelServlet() 
     {
         super();
         
@@ -89,7 +90,7 @@ public class Gateway extends HttpServlet
         request.setAttribute("uvLightState", power);
         
         ServletContext c = getServletContext();
-        RequestDispatcher rd = c.getRequestDispatcher("/index.jsp");
+        RequestDispatcher rd = c.getRequestDispatcher("/control-panel.jsp");
         rd.forward(request, response);
     }
 
@@ -133,5 +134,5 @@ public class Gateway extends HttpServlet
     {
         return "This is webapp to control and monitor a lizard enclosure.";
     }
-    
+
 }
