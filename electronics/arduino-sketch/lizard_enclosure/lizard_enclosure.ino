@@ -4,17 +4,21 @@
 #include <SoftwareSerial.h>
 
 // digital pins
-#define MODE_PIN 5
-
-#define ON_BOARD_LED_PIN 13
+#define MODE_BUTTON_PIN 5
 #define PIR_SENSOR_PIN 7   // http://seeedstudio.com/wiki/GROVE_-_Starter_Kit_v1.1b#Grove_-_Serial_LCD
-
-// more digital pins.  this is a must, assign soft serial pins
-#define LCD_PIN_1 11
-#define LCD_PIN_2 12
-
 #define SERVO_PIN 9
+#define ON_BOARD_LED_PIN 13
+
+// more digital pins
+#define LCD_PIN_1 11   // assign soft serial pin
+#define LCD_PIN_2 12   // assign soft serial pin
+
 #define SERVO_DELAY 300
+
+#define MODES_DAY_TIME 10
+#define MODES_NIGHT_TIME 11
+
+int currentMode = MODES_DAY_TIME;
 
 volatile bool daytimeMode = false;
 
@@ -29,22 +33,23 @@ const int tempPin = 0;
 
 void loop() 
 {
+  serialInput();
+  // Serial Input: http://stackoverflow.com/questions/11421905/java-integer-to-byte-and-byte-to-integer
+  // if( Seral.availabel()  ) 
+  
   modeButton();
   serialLcd();
-  if(daytimeMode)
-  {
-    pirSensor();    
-  }
-
+  pirSensor();      
 }
 
 void modeButton()
 {
-  if ( !digitalRead(MODE_PIN) )
-  {  // if the button is pressed
-      daytimeMode = !daytimeMode;
-
+  if( !digitalRead(MODE_BUTTON_PIN) )
+  {  
+    // the button was pressed
+    daytimeMode = !daytimeMode;
   }
+  
   Serial.print("daytime mode: ");
   Serial.println(daytimeMode); 
 }  
@@ -77,9 +82,13 @@ void pirSensor()
       // we have just turned on
       Serial.println("motion detected!");
       
-      moveServo();
-      moveServo();
-      
+        if(daytimeMode)
+        {
+          moveServo();
+          moveServo();
+          moveServo();
+        }
+
       // We only want to print on the output change, not state
       pirState = HIGH;
     }
@@ -105,7 +114,30 @@ float readTemp()
   float Rsensor;
   Rsensor=(float)(1023-sensorValue)*10000/sensorValue;
   TEMP=1/(log(Rsensor/10000)/B+1/298.15)-273.15;
+  
   return TEMP;
+}
+
+void serialInput()
+{
+  if(Serial.available())
+  {
+    currentMode = Serial.read() - '0';
+    
+    switch(currentMode)
+    {
+      case MODES_NIGHT_TIME:
+      {
+        
+        
+        break;
+      }
+      default:
+      {
+        // do something, sheesh!
+      }
+    }
+  }  
 }
 
 void serialLcd()
@@ -114,34 +146,16 @@ void serialLcd()
   // (note: line 1 is the second row, since counting begins with 0):
   slcd.setCursor(0, 1);
 
-  SLCDprintFloat( readTemp() ,1);
-  slcd.print(" Celsius");
+  double celsius = readTemp();
+  serialLcdPrintFloat(celsius, 1);
+  slcd.print(" C - ");
   
-  delay(500);  // give the servo some time to move back to the origin
+  double fahrenheit = celsius * 9 / 5 + 32;
+  serialLcdPrintFloat(fahrenheit, 1);
+  slcd.print(" F");
 }
 
-void setup() 
-{
-  Serial.begin(9600);
-    
-  slcd.begin();
-  slcd.print("Temperature is:");
-  
-  pinMode(MODE_PIN, INPUT);
-  digitalWrite(MODE_PIN, HIGH);
-   
-  pinMode(PIR_SENSOR_PIN, INPUT);
-  digitalWrite(PIR_SENSOR_PIN, HIGH);  // with pullup
-   
-  pinMode(ON_BOARD_LED_PIN, OUTPUT);
- 
-  vineServo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object 
-  vineServo.write(0);  
-  delay(500);  // give the servo some time to move back to the origin  
-  vineServo.detach();
-}
-
-void SLCDprintFloat(double number, uint8_t digits) 
+void serialLcdPrintFloat(double number, uint8_t digits) 
 { 
   // Handle negative numbers
   if (number < 0.0)
@@ -174,5 +188,26 @@ void SLCDprintFloat(double number, uint8_t digits)
     slcd.print(toPrint , DEC);//base DEC
     remainder -= toPrint; 
   } 
+}
+
+void setup() 
+{
+  Serial.begin(9600);
+    
+  slcd.begin();
+  slcd.print("Temperature:");
+  
+  pinMode(MODE_BUTTON_PIN, INPUT);
+  digitalWrite(MODE_BUTTON_PIN, HIGH);
+   
+  pinMode(PIR_SENSOR_PIN, INPUT);
+  digitalWrite(PIR_SENSOR_PIN, HIGH);  // with pullup
+   
+  pinMode(ON_BOARD_LED_PIN, OUTPUT);
+ 
+  vineServo.attach(SERVO_PIN);  // attaches the servo on pin 9 to the servo object 
+  vineServo.write(0);  
+  delay(1000);  // give the servo some time to move back to the origin  
+  vineServo.detach();
 }
 
