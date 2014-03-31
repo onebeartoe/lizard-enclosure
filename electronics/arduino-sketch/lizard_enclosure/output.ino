@@ -1,5 +1,4 @@
 
-
 /**
 *  Show the status of the sensors, switching between them after the SERIAL_LCD_SENSOR_INTERVAL
 */
@@ -18,6 +17,8 @@ void lcdOutput()
     {
       lcdOutputMode = 0;
     }
+
+    slcd.clear();    
     
     switch(lcdOutputMode)
     {
@@ -33,10 +34,13 @@ void lcdOutput()
       }
       case LCD_OUTPUT_MODES_HUMIDITY_TEMPERATURE:
       {
+        humidityTemperatureSensorLcdUpdate();
+        
         break;
       }
       default:
       {
+        
       }
     }
   }
@@ -44,7 +48,6 @@ void lcdOutput()
 
 void lcdOutputExternalTemperature()
 {
-
     slcd.setCursor(0, 0);    
     slcd.print("Extern Temper:");
     
@@ -117,19 +120,21 @@ void serialOutput()
 void serialOutputHumidityTemperature()
 {
   // check if the internal humidity and temperature are valid, if they are NaN (not a number) then something went wrong!
-  if (isnan(internalTemperature) || isnan(humidity)) 
+  if (isnan(internalCelsiusTemperature) || isnan(humidity)) 
   {
     Serial.println("Failed to read from DHT");
   } 
   else 
   {
-    Serial.print("Humidity:"); 
-    Serial.println(humidity);    
-//    Serial.print(" %\t");
-
-    Serial.print("Temperature:"); 
-    Serial.print(internalTemperature);
-    Serial.println("C");
+    if(debugInternalTempAndHumidity)
+    {
+      Serial.print("Humidity:"); 
+      Serial.println(humidity);    
+  
+      Serial.print("Temperature:"); 
+      Serial.print(internalCelsiusTemperature);
+      Serial.println("C");      
+    }
   }  
 }
 

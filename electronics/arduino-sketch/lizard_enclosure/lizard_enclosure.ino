@@ -31,14 +31,14 @@ int lcdOutputMode = LCD_OUTPUT_MODES_MODE_DISPLAY;
 DHT htSensor(DHTPIN, DHTTYPE);
 
 float humidity;
-float internalTemperature;
-
+float internalCelsiusTemperature;
+float internalFahrenheitTemperature;
 #define SERVO_DELAY 300
 
 #define MODES_DAY_TIME 10
 #define MODES_NIGHT_TIME 11
 
-long SERIAL_LCD_SENSOR_INTERVAL = 1000 * 60 * 1;
+long SERIAL_LCD_SENSOR_INTERVAL = 1000 * 10;
 long previousLcdUdateMillis = 0;        // will store last time LCD was updated
 
 int currentMode = MODES_DAY_TIME;
@@ -54,6 +54,10 @@ int pirState = LOW;             // on start, set to no motion detected
 
 double externalCelsius;
 double externalFahrenheit;
+
+// debug settings
+boolean static debugInternalTempAndHumidity = false;
+boolean static debugMotionSensor = false;
 
 void loop() 
 {

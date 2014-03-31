@@ -10,12 +10,25 @@ void humidityTemperatureSensor()
  // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   humidity = htSensor.readHumidity();
-  internalTemperature = htSensor.readTemperature();
+  internalCelsiusTemperature = htSensor.readTemperature();
+  internalFahrenheitTemperature  = internalCelsiusTemperature * 9 / 5 + 32;
 }
 
 void humidityTemperatureSensorLcdUpdate()
 {
-  
+    slcd.setCursor(0, 0);    
+    slcd.print("Intern: ");
+    serialLcdPrintFloat(humidity, 1);
+    slcd.print(" Hum.");
+    
+    // set the cursor to column 0, line 1
+    // (note: line 1 is the second row, since counting begins with 0):
+    slcd.setCursor(0, 1);
+    serialLcdPrintFloat(internalCelsiusTemperature, 1);
+    slcd.print(" C - ");
+    
+    serialLcdPrintFloat(internalFahrenheitTemperature, 1);
+    slcd.print(" F");  
 }
 
 void modeButton()
@@ -26,6 +39,8 @@ void modeButton()
     daytimeMode = !daytimeMode;
     Serial.print("daytime mode: ");
     Serial.println(daytimeMode); 
+    
+    
   }
 }  
 
@@ -39,14 +54,18 @@ void pirSensor()
     if (pirState == LOW) 
     {
       // we have just turned on
-      Serial.println("motion detected!");
       
-        if(daytimeMode)
-        {
-          moveServo();
-          moveServo();
-          moveServo();
-        }
+      if(debugMotionSensor)
+      {
+        Serial.println("motion detected!");
+      }
+            
+      if(daytimeMode)
+      {
+        moveServo();
+        moveServo();
+        moveServo();
+      }
 
       // We only want to print on the output change, not state
       pirState = HIGH;
@@ -57,8 +76,13 @@ void pirSensor()
     digitalWrite(ON_BOARD_LED_PIN, LOW); // turn LED OFF
     if (pirState == HIGH)
     {
-      // we have just turned of
-      Serial.println("end of motion");
+      // we have just turned off
+      
+      if(debugMotionSensor)
+      {      
+        Serial.println("end of motion");
+      }
+      
       // We only want to print on the output change, not state
       pirState = LOW;
     }

@@ -27,7 +27,7 @@ public class ControlPanelServlet extends HttpServlet
 
     GpioController gpio;
 
-    GpioPinDigitalOutput heatLampPin;
+    GpioPinDigitalOutput humidifierPin;
     
     GpioPinDigitalOutput uvLightPin;
     
@@ -44,7 +44,7 @@ public class ControlPanelServlet extends HttpServlet
         {
             gpio = GpioFactory.getInstance();
         
-            heatLampPin = 
+            humidifierPin = 
                 gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, 
                                             "HeatLamp", 
                                             PinState.LOW);
@@ -71,18 +71,19 @@ public class ControlPanelServlet extends HttpServlet
             throws ServletException, IOException 
     {
         String power = request.getParameter("uvLight");
-        
+
+// not what we want!        
         // Send the appropriate message to the GPIO on the Pi
-        if( power != null && heatLampPin != null && uvLightPin != null) 
+        if( power != null && humidifierPin != null && uvLightPin != null) 
         {
             if( power.equalsIgnoreCase("on") ) 
             {
-                heatLampPin.high();
+                humidifierPin.high();
                 uvLightPin.high();                
             }
             else if( power.equalsIgnoreCase("off") )
             {
-                heatLampPin.low();
+                humidifierPin.low();
                 uvLightPin.low();
             }
         }
