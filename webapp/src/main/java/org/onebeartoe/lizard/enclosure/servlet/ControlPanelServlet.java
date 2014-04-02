@@ -62,10 +62,16 @@ public class ControlPanelServlet extends HttpServlet
 
     }
 
-    public synchronized void close() 
+    @Override
+    public void destroy()
     {
-    	gpio.shutdown();
+        gpio.shutdown();
     }
+    
+//    public synchronized void close() 
+//    {
+//    	gpio.shutdown();
+//    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
@@ -106,7 +112,8 @@ public class ControlPanelServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 
@@ -121,7 +128,8 @@ public class ControlPanelServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException 
+    {
         processRequest(request, response);
     }
 

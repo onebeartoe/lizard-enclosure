@@ -62,7 +62,8 @@ public class SerialTest implements SerialPortEventListener
 
         public void initialize() 
         {
-                // the next line gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
+                // the next line is for Raspberry Pi and 
+                // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
                 System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
                 CommPortIdentifier portId = null;
@@ -121,8 +122,10 @@ public class SerialTest implements SerialPortEventListener
          * This should be called when you stop using the port. This will prevent
          * port locking on platforms like Linux.
          */
-        public synchronized void close() {
-                if (serialPort != null) {
+        public synchronized void close() 
+        {
+                if (serialPort != null) 
+                {
                         serialPort.removeEventListener();
                         serialPort.close();
                 }

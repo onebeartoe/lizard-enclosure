@@ -1,0 +1,17 @@
+
+
+JVM_ARGS=-Djava.library.path=/usr/lib/jni
+
+case $1 in
+start)
+        /opt/weblogic/wlp/bin/server start
+        ;;
+stop)
+        /opt/weblogic/wlp/bin/server stop
+        ;;
+restart)
+        /opt/weblogic/wlp/bin/server stop
+        /opt/weblogic/wlp/bin/server start
+        ;;
+esac
+exit 0
