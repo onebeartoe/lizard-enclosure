@@ -16,12 +16,20 @@ import org.onebeartoe.Commander;
 @WebServlet(urlPatterns = {"/dashboard"})
 public class DashboardServlet extends HttpServlet
 {
+    Logger logger;
+
+    @Override
+    public void init() throws ServletException 
+    {
+        super.init();
+        
+        logger = Logger.getLogger(DashboardServlet.class.getName());
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
-    {
-        Logger logger = Logger.getLogger(DashboardServlet.class.getName());
-        
+    {        
         StringBuilder stderr = null;
         StringBuilder stdout = null;
             
@@ -40,9 +48,7 @@ public class DashboardServlet extends HttpServlet
         {
             logger.log(Level.SEVERE, null, ex);
         }
-        
-        
-        
+                
         ServletContext context = getServletContext();
         RequestDispatcher rd = context.getRequestDispatcher("/index.jsp");
         rd.forward(request, response);

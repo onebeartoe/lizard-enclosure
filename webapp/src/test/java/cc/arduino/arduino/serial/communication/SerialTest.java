@@ -12,8 +12,8 @@ import java.io.InputStream;
 import java.util.Enumeration;
 
 /**
-  540  java -Djava.library.path=/usr/lib/jni -jar arduino-serial-communication-1.0-SNAPSHOT-jar-with-dependencies.jar 
-  541  sudo java -Djava.library.path=/usr/lib/jni -jar arduino-serial-communication-1.0-SNAPSHOT-jar-with-dependencies.jar 
+       java -Djava.library.path=/usr/lib/jni -jar arduino-serial-communication-1.0-SNAPSHOT-jar-with-dependencies.jar 
+  sudo java -Djava.library.path=/usr/lib/jni -jar arduino-serial-communication-1.0-SNAPSHOT-jar-with-dependencies.jar 
  */
 
 
@@ -23,7 +23,7 @@ import java.util.Enumeration;
  *
  * @author Roberto Marquez
  */
-public class SerialTest implements SerialPortEventListener 
+public class SerialTest implements SerialPortEventListener
 {
         private SerialPort serialPort;
         
@@ -124,11 +124,11 @@ public class SerialTest implements SerialPortEventListener
          */
         public synchronized void close() 
         {
-                if (serialPort != null) 
-                {
-                        serialPort.removeEventListener();
-                        serialPort.close();
-                }
+            if (serialPort != null) 
+            {
+                    serialPort.removeEventListener();
+                    serialPort.close();
+            }
         }
 
         /**

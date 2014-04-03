@@ -14,17 +14,20 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
-import com.pi4j.system.SystemInfo;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 
-@WebServlet(urlPatterns = {"/control-panel"})
+@WebServlet(urlPatterns = {"/control-panel"} )
 public class ControlPanelServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
-
+    
+    public static final String humidifierId = "Humidifier";
+    
+    public static final String ultravioletLightsId = "UltravioletLights";
+            
     GpioController gpio;
 
     GpioPinDigitalOutput humidifierPin;
@@ -37,22 +40,26 @@ public class ControlPanelServlet extends HttpServlet
     public ControlPanelServlet() 
     {
         super();
-        
 //        SystemInfo.getProcessor();
         
         try
         {
-            gpio = GpioFactory.getInstance();
+            gpio = GpioFactory.getInstance();            
         
-            humidifierPin = 
-                gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, 
-                                            "HeatLamp", 
-                                            PinState.LOW);
-        
-            uvLightPin = 
-                gpio.provisionDigitalOutputPin( RaspiPin.GPIO_04, 
-                                            "UV-Light", 
-                                            PinState.LOW);
+            humidifierPin = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, 
+                                                            humidifierId, 
+                                                            PinState.LOW);
+            System.out.println("control panel servlet constructor");
+ServletContext servletContext     =   getServletConfig().getServletContext();
+//            ServletContext servletContext = getServletContext();
+           servletContext.setAttribute(humidifierId, humidifierPin);
+            
+            
+            uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
+                                                        ultravioletLightsId, 
+                                                        PinState.LOW);
+            
+            servletContext.setAttribute(ultravioletLightsId, uvLightPin);
         }
         catch(UnsatisfiedLinkError e)
         {
