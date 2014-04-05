@@ -1,6 +1,5 @@
 
-
-JVM_ARGS=-Djava.library.path=/usr/lib/jni
+export JVM_ARGS=-Djava.library.path=/usr/lib/jni
 
 case $1 in
 start)

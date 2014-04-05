@@ -8,6 +8,7 @@ package org.onebeartoe.lizard.enclosure;
  *
  * @author rmarquez
  */
-public class LizardEnclosure {
+public class LizardEnclosure 
+{
     
 }

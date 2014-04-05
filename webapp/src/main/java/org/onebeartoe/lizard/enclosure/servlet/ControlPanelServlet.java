@@ -14,12 +14,15 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-@WebServlet(urlPatterns = {"/control-panel"} )
+@WebServlet(urlPatterns = {"/controls"}, loadOnStartup = 1)
 public class ControlPanelServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -40,7 +43,6 @@ public class ControlPanelServlet extends HttpServlet
     public ControlPanelServlet() 
     {
         super();
-//        SystemInfo.getProcessor();
         
         try
         {
@@ -49,24 +51,33 @@ public class ControlPanelServlet extends HttpServlet
             humidifierPin = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, 
                                                             humidifierId, 
                                                             PinState.LOW);
-            System.out.println("control panel servlet constructor");
-ServletContext servletContext     =   getServletConfig().getServletContext();
-//            ServletContext servletContext = getServletContext();
-           servletContext.setAttribute(humidifierId, humidifierPin);
             
+            System.out.println("control panel servlet constructor");
             
             uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
                                                         ultravioletLightsId, 
-                                                        PinState.LOW);
-            
-            servletContext.setAttribute(ultravioletLightsId, uvLightPin);
+                                                        PinState.LOW);    
         }
         catch(UnsatisfiedLinkError e)
         {
             System.err.println("An error occured while provisioning the GPIO pins.");
             e.printStackTrace();            
         }
-
+        
+        ServletContext servletContext;      
+        try 
+        {
+            servletContext = getApplicationContext();
+            //        ServletContext servletContext = getServletConfig().getServletContext();
+            servletContext.setAttribute("enclosure", enclosure);
+        //            ServletContext servletContext = getServletContext();
+            servletContext.setAttribute(humidifierId, humidifierPin);
+            servletContext.setAttribute(ultravioletLightsId, uvLightPin);
+        } 
+        catch (Exception ex) 
+        {
+            Logger.getLogger(ControlPanelServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -104,7 +115,7 @@ ServletContext servletContext     =   getServletConfig().getServletContext();
         request.setAttribute("uvLightState", power);
         
         ServletContext c = getServletContext();
-        RequestDispatcher rd = c.getRequestDispatcher("/control-panel.jsp");
+        RequestDispatcher rd = c.getRequestDispatcher("/controls/index.jsp");
         rd.forward(request, response);
     }
 
@@ -138,6 +149,28 @@ ServletContext servletContext     =   getServletConfig().getServletContext();
             throws ServletException, IOException 
     {
         processRequest(request, response);
+    }
+    
+//    @Override
+    private ServletContext getApplicationContext() throws Exception
+    {
+        ServletContext servletContext;
+        
+        ServletConfig servletConfig = getServletConfig();
+        
+        if(servletConfig == null)
+        {
+            servletContext = getServletContext();
+        }
+        else
+        {
+            servletContext = servletConfig.getServletContext();
+        }
+        
+//        ServletContext servletContext = servletConfig.getServletContext();              
+//        ServletContext servletContext = getServletConfig().getServletContext();
+        
+        return servletContext;
     }
 
     /**

@@ -97,7 +97,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         logger = Logger.getLogger(DashboardServlet.class.getName());
         
         messages = new ArrayList();
-        messages.add("servelt started up");
+        messages.add("servlet started up");
         
         // the next line is for Raspberry Pi and 
         // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
@@ -124,35 +124,36 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         if (portId == null) 
         {
                 System.out.println("Could not find COM port.");
-                return;
         }
-
-        try 
+        else
         {
-            // open serial port, and use class name for the appName.
-            serialPort = (SerialPort) portId.open(this.getClass().getName(),
-                    TIME_OUT);
+            try 
+            {
+                // open serial port, and use class name for the appName.
+                serialPort = (SerialPort) portId.open(this.getClass().getName(),
+                        TIME_OUT);
 
-            // set port parameters
-            serialPort.setSerialPortParams(DATA_RATE,
-                    SerialPort.DATABITS_8,
-                    SerialPort.STOPBITS_1,
-                    SerialPort.PARITY_NONE);
-            // open the streams
-            InputStream is = serialPort.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            input = new BufferedReader(isr);
+                // set port parameters
+                serialPort.setSerialPortParams(DATA_RATE,
+                        SerialPort.DATABITS_8,
+                        SerialPort.STOPBITS_1,
+                        SerialPort.PARITY_NONE);
+                // open the streams
+                InputStream is = serialPort.getInputStream();
+                InputStreamReader isr = new InputStreamReader(is);
+                input = new BufferedReader(isr);
 
-            output = serialPort.getOutputStream();
+                output = serialPort.getOutputStream();
 
-            // add event listeners
-            serialPort.addEventListener(this);
-            serialPort.notifyOnDataAvailable(true);
-        } 
-        catch (Exception e) 
-        {
-                System.err.println(e.toString());
-        }        
+                // add event listeners
+                serialPort.addEventListener(this);
+                serialPort.notifyOnDataAvailable(true);
+            } 
+            catch (Exception e) 
+            {
+                    System.err.println(e.toString());
+            }            
+        }     
     }
 
     /**

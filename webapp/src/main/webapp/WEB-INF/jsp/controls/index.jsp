@@ -1,25 +1,55 @@
 
 	<div class="copyspace">
-            
-	    <h3>Lizard Enclosure - Schedule</h3>           
+	    <h3>Lizard Enclosure - Ultraviolet Lamps</h3>
+        
+            <c:choose>
+                <c:when test="${uvLightState.equalsIgnoreCase('on')}">
+                    <c:set var="imagePath" value="uv-light-on.png"/>
+                    <c:set var="uvLightAction" value="off"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="imagePath" value="uv-light-off.png"/>
+                    <c:set var="uvLightAction" value="on"/>
+                </c:otherwise>
+            </c:choose>            
 
             <div class="featuredProject">
-                <div>
-                    ${saveMessage}
-                </div>
                 <center>
-                    current cron schedule:
-                    <br/>
-<pre>                    
-${cronTable}
-</pre>              
-                    </b>
-
-                    <form method="POST" action="${pageContext.request.contextPath}/schedule/edit">
-                        <input type="submit" value="Edit">
-                    </form>
+                    <a href="${pageContext.request.contextPath}/control-panel?uvLight=${uvLightAction}">
+                        <img src="${pageContext.request.contextPath}/images/${imagePath}">
+                        <br/>
+                        <b>${uvLightState}</b>
+                    </a>
                 </center>
             
-	    </div>
+	    </div>                        
+	</div>
+
+	<div class="copyspace">
+	    <h3>Lizard Enclosure - Humidifier</h3>
+        
+            <c:choose>
+                <c:when test="${uvLightState.equalsIgnoreCase('on')}">
+                    <c:set var="imagePath" value="uv-light-on.png"/>
+                    <c:set var="uvLightAction" value="off"/>
+                </c:when>
+                <c:otherwise>
+                    <c:set var="imagePath" value="uv-light-off.png"/>
+                    <c:set var="uvLightAction" value="on"/>
+                </c:otherwise>
+            </c:choose>            
+
+            <div class="featuredProject">
+                <center>
+                    <a href="${pageContext.request.contextPath}/control-panel?uvLight=${uvLightAction}">
+                        <img src="${pageContext.request.contextPath}/images/${imagePath}">
+                        <br/>
+                        <b>${uvLightState}</b>
+                        <br/>
+                        as.e:                        ${applicationScope.enclosure}
+
+                    </a>
+                </center>
             
+	    </div>                        
 	</div>

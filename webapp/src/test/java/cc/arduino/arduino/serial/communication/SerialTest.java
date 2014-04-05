@@ -126,8 +126,8 @@ public class SerialTest implements SerialPortEventListener
         {
             if (serialPort != null) 
             {
-                    serialPort.removeEventListener();
-                    serialPort.close();
+                serialPort.removeEventListener();
+                serialPort.close();
             }
         }
 
