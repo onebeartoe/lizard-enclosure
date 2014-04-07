@@ -1,5 +1,5 @@
 
-package org.onebeartoe.lizard.enclosure.schedule.servlet;
+package org.onebeartoe.lizard.enclosure.schedules;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;

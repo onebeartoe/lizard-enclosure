@@ -1,5 +1,5 @@
 
-package org.onebeartoe.lizard.enclosure.servlet;
+package org.onebeartoe.lizard.enclosure.arduino;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.onebeartoe.lizard.enclosure.dashboard.DashboardServlet;
 
 /**
  * @author Roberto Marquez
@@ -160,9 +161,9 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
      * Handle an event on the serial port. Read the data and print it.
      */
     @Override
-    public synchronized void serialEvent(SerialPortEvent oEvent) 
+    public synchronized void serialEvent(SerialPortEvent event) 
     {
-        if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) 
+        if(event.getEventType() == SerialPortEvent.DATA_AVAILABLE) 
         {
             try 
             {

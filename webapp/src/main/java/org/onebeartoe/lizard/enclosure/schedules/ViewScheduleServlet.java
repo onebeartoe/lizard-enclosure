@@ -1,5 +1,5 @@
 
-package org.onebeartoe.lizard.enclosure.schedule.servlet;
+package org.onebeartoe.lizard.enclosure.schedules;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -13,10 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Roberto Marquez
  */
-@WebServlet(urlPatterns = {"/schedule/save"})
-public class SaveScheduleEditServlet extends HttpServlet
+@WebServlet(urlPatterns = {"/schedule"})
+public class ViewScheduleServlet extends HttpServlet
 {
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException 
+    {
+        doPost(request, response);
+    }
+    
     /**
      * Handles the HTTP
      * <code>GET</code> method.
@@ -30,12 +36,12 @@ public class SaveScheduleEditServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        String saveMessage = "The edit to the cron table was successful";
+        String cronTable = "# y m d h m s command" + System.lineSeparator() + "* * * * * 3 curl http://localhost:8080/lizard-enclosure/control-panel?uvLight=on";
         
-        request.setAttribute("saveMessage", saveMessage);
+        request.setAttribute("cronTable", cronTable);
         
         ServletContext c = getServletContext();
-        RequestDispatcher rd = c.getRequestDispatcher("/schedule");
+        RequestDispatcher rd = c.getRequestDispatcher("/schedule/index.jsp");
         rd.forward(request, response);
     }
 

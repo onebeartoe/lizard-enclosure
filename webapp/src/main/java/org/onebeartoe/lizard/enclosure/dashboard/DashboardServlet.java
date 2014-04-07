@@ -1,5 +1,5 @@
 
-package org.onebeartoe.lizard.enclosure.servlet;
+package org.onebeartoe.lizard.enclosure.dashboard;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.onebeartoe.Commander;
 
+/**
+ * This servlet only has display responsibilities; all request are idempotent.
+ * @author roberto
+ */
 @WebServlet(urlPatterns = {"/dashboard"})
 public class DashboardServlet extends HttpServlet
 {
