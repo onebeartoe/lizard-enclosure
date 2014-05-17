@@ -33,30 +33,15 @@ public class ControlPanelServlet extends HttpServlet
     public static final String ultravioletLightsId = "UltravioletLights";
             
     private GpioController gpio;
-
-//    private GpioPinDigitalOutput humidifierPin;
     
     private GpioPinDigitalOutput uvLightPin;
     
-//    @Inject
-//    private LizardEnclosure enclosure;
-    
-//    public ControlPanelServlet() 
-//    {
-//        super();
-//    }
-
     @Override
     public void destroy()
     {
         gpio.shutdown();
     }
     
-//    public synchronized void close() 
-//    {
-//    	gpio.shutdown();
-//    }
-
     /**
      * Handles the HTTP
      * <code>GET</code> method.
@@ -123,6 +108,34 @@ public class ControlPanelServlet extends HttpServlet
     {
         return "This is webapp to control and monitor a lizard enclosure.";
     }
+
+    private void humidifier(LizardEnclosure enclosure, HttpServletRequest request) 
+    {        
+        String humidifierNextState;
+        String humidifierImagePath;
+        
+        if(enclosure.humidifierPin == null)
+        {
+            humidifierNextState = "State Unknown";
+            humidifierImagePath = "unknown.png";
+        }
+        else
+        {
+            if( enclosure.humidifierPin.isHigh() )
+            {
+                 humidifierNextState = "off";                 
+                 humidifierImagePath = "off.png";
+            }
+            else
+            {
+                humidifierNextState = "on";
+                humidifierImagePath = "on.png";
+            }
+        }
+
+        request.setAttribute("humidifierNextState", humidifierNextState);
+        request.setAttribute("humidifierImagePath", humidifierImagePath);
+    }    
     
     @Override
     public void init()
@@ -173,40 +186,34 @@ public class ControlPanelServlet extends HttpServlet
         ServletContext servletContext = getServletContext();
 
         LizardEnclosure enclosure = (LizardEnclosure) servletContext.getAttribute("lizardEnclosure");
-        String humidifierCurrentState = enclosure.humidifierPin == null ? "State Unknown" : 
-                                                                          enclosure.humidifierPin.isHigh() ? "On" : "Off";
-        request.setAttribute("humidifierCurrentState", humidifierCurrentState);
         
-        String humidifierNextState = enclosure.humidifierPin == null ? "State Unknown" : 
-                                                                          enclosure.humidifierPin.isHigh() ? "off" : "on";
-        request.setAttribute("humidifierNextState", humidifierNextState);        
-                
+        humidifier( enclosure, request);
+        
+        uvLight(request);
+        
+        String DEFAULT_PAGE = "/controls/index.jsp";        
+//        ServletContext servletContext = getServletContext();
+        RequestDispatcher rd = servletContext.getRequestDispatcher(DEFAULT_PAGE);
+        rd.forward(request, response);
+    }
+    
+    private void uvLight(HttpServletRequest request)
+    {
         String power = request.getParameter("uvLight");
 
-// not what we want!        
         // Send the appropriate message to the GPIO on the Pi
         if( power != null && uvLightPin != null)
-//        if( power != null && humidifierPin != null && uvLightPin != null)
         {
             if( power.equalsIgnoreCase("on") ) 
             {
-//                humidifierPin.high();                
                 uvLightPin.high();                
             }
             else if( power.equalsIgnoreCase("off") )
             {
-//                humidifierPin.low();
                 uvLightPin.low();
             }
-        }
-        
+        }        
         request.setAttribute("uvLightState", power);
-        
-        String DEFAULT_PAGE = "/controls/index.jsp";
-        
-//        ServletContext servletContext = getServletContext();
-        RequestDispatcher rd = servletContext.getRequestDispatcher(DEFAULT_PAGE);
-        rd.forward(request, response);
-    }    
+    }
     
 }

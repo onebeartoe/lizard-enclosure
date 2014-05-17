@@ -50,8 +50,6 @@ public class HumidifierServlet extends HttpServlet
             }
        }
         
-//       request.setAttribute("cronTable", cronTable);
-        
        ServletContext c = getServletContext();
        RequestDispatcher rd = c.getRequestDispatcher("/controls");
        rd.forward(request, response);
