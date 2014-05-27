@@ -5,18 +5,23 @@
 
             <div class="featuredProject">
                 <center>
-                    new cron schedule:
-                    <br/>
+                    <form method="POST" action="${pageContext.request.contextPath}/schedule/save">                    
+                        new cron schedule:
+                        <br/>
+                        <input type="hidden" name="newSchedlue" value="${newSchedlue}"> 
+<pre>                    
+${newSchedlue}
+</pre>              
+
+
+
+                        </b>
+                        old cron schedule:
+                        <br/>
 <pre>                    
 ${cronTable}
 </pre>              
-                    </b>
-                    old cron schedule:
-                    <br/>
-<pre>                    
-${cronTable}
-</pre>              
-                    <form method="POST" action="${pageContext.request.contextPath}/schedule/save">
+
                         <input type="submit" value="Save">
                     </form>
                 </center>

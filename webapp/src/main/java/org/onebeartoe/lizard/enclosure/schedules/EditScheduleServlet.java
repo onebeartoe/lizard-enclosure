@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/schedule/edit"})
 public class EditScheduleServlet extends HttpServlet
 {
+    
+    private CrontabService crontabService = new CrontabService();
 
     /**
      * Handles the HTTP
@@ -27,12 +29,12 @@ public class EditScheduleServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
         String cronTable = "# y m d h m s command" + System.lineSeparator() + "* * * * * 3 curl http://localhost:8080/lizard-enclosure/control-panel?uvLight=on";
+        String entries = crontabService.formattedCurrentUserEntries();
         
-        request.setAttribute("cronTable", cronTable);
+        request.setAttribute("cronTable", entries);
         
         ServletContext c = getServletContext();
         RequestDispatcher rd = c.getRequestDispatcher("/schedule/edit.jsp");

@@ -5,12 +5,15 @@
 
             <div class="featuredProject">
                 <center>
-                    current cron schedule:
-                    <br/>
-                    <textarea rows="8" name="cronTable" cols="40">${cronTable}</textarea>
-                    </b>
-
                     <form method="POST" action="${pageContext.request.contextPath}/schedule/confirm/edit">
+                        current cron schedule:
+
+                        <br/>
+
+                        <textarea rows="8" name="newSchedlue" cols="40">${cronTable}</textarea>
+
+                        </b>
+                   
                         <input type="submit" value="Confirm">
                     </form>
                 </center>

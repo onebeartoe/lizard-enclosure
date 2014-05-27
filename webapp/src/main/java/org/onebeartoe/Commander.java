@@ -2,35 +2,25 @@
 package org.onebeartoe;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Commander 
 {
-	private String command;
+    private String command;
 	
-	private StringBuilder stdout;
-	
-	public StringBuilder getStdout() {
-		return stdout;
-	}
+    private List<String> stdout;
 
-	public StringBuilder getStderr() {
-		return stderr;
-	}
+    private List<String> stderr;
 
+    static final String defaultFile = "errors.txt";             
 
-	private StringBuilder stderr;
-
-	static final String defaultFile = "errors.txt"; 
-             // This is the name of the file that is used for outputting
-             // error messages, unless the user specifies a different name with 
-             // the "-f" option.                  
- 
-	public Commander(String command)
-	{
-		this.command = command;
-		stdout = new StringBuilder();
-		stderr = new StringBuilder();
-	}
+    public Commander(String command)
+    {
+            this.command = command;
+            stdout = new ArrayList();
+            stderr = new ArrayList();
+    }
 	
 	public int execute() throws IOException, InterruptedException 
 	{
@@ -50,24 +40,24 @@ public class Commander
 		InputStreamReader insteamReader = new InputStreamReader(instream);
 		BufferedReader stdInput = new BufferedReader(insteamReader);		
 		String s = null;
-		System.out.println("Here is the standard output of the command:\n");
+//		System.out.println("Here is the standard output of the command:\n");
 		while ((s = stdInput.readLine()) != null) 
 		{
-			stdout.append(s);
-                        stdout.append( System.lineSeparator() );
-			System.out.println(s);				
+			stdout.add(s);
+//                        stdout.append( System.lineSeparator() );
+//			System.out.println(s);				
 		}
 
 		// read any errors from the attempted command
 		InputStream is = jobProcess.getErrorStream();
 		InputStreamReader isr = new InputStreamReader(is);
 		BufferedReader stdError = new BufferedReader(isr);
-		System.out.println("Here is the standard error of the command (if any):\n");
+//		System.out.println("Here is the standard error of the command (if any):\n");
 		while ((s = stdError.readLine()) != null) 
 		{
-			stderr.append(s);
-                        stdout.append( System.lineSeparator() );
-			System.out.println(s);
+			stderr.add(s);
+                        stdout.add( System.lineSeparator() );
+//			System.out.println(s);
 		}
 			
 		int exitCode = jobProcess.exitValue();
@@ -83,8 +73,6 @@ public class Commander
                                        //              messages will be written.
 
       String command = args;  
-//      String command = "notepad order5.txt";  // The words in the command line to be executed,
-                                              //    consising of the command and the file name(s)
       
       Process compiler;  // A process object that will run the javac compiler.
       
@@ -184,8 +172,17 @@ public class Commander
          System.out.println(errorline);
       }
       
-   } // end main()
+   }
    
+   public List<String> getStderr() 
+   {
+            return stderr;
+    }
+
+    public List<String> getStdout() 
+    {
+            return stdout;
+    }
    
    static boolean checkLF;  // A kludge to take care of the fact that text files
                             // on different files can have different formats.  Lines can end

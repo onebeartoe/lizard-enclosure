@@ -74,26 +74,11 @@ public class ControlPanelServlet extends HttpServlet
         processRequest(request, response);
     }
     
-//    @Override
     public ServletContext getApplicationContext() throws Exception
     {
-        
-/*        
-        ServletContext servletContext;
-*/        
         ServletConfig servletConfig = getServletConfig();
-/*        
-        if(servletConfig == null)
-        {
-            servletContext = getServletContext();
-        }
-        else
-        {
-            servletContext = servletConfig.getServletContext();
-        }
-*/        
+
         ServletContext servletContext = servletConfig.getServletContext();              
-//        ServletContext servletContext = getServletConfig().getServletContext();
         
         return servletContext;
     }
@@ -123,13 +108,15 @@ public class ControlPanelServlet extends HttpServlet
         {
             if( enclosure.humidifierPin.isHigh() )
             {
-                 humidifierNextState = "off";                 
-                 humidifierImagePath = "off.png";
+                 humidifierImagePath = "on.png";
+                 
+                 humidifierNextState = "off";
             }
             else
             {
+                humidifierImagePath = "off.png";
+                
                 humidifierNextState = "on";
-                humidifierImagePath = "on.png";
             }
         }
 
@@ -168,10 +155,7 @@ public class ControlPanelServlet extends HttpServlet
         try 
         {
             servletContext = getApplicationContext();
-            //        ServletContext servletContext = getServletConfig().getServletContext();
             servletContext.setAttribute(LIZARD_ENCLOSURE_ID, enclosure);
-        //            ServletContext servletContext = getServletContext();
-//            servletContext.setAttribute(humidifierId, humidifierPin);
             servletContext.setAttribute(ultravioletLightsId, uvLightPin);
         } 
         catch (Exception ex) 

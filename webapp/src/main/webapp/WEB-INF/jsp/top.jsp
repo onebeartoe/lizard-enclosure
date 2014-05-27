@@ -18,6 +18,7 @@
         
   <br/>
   
+  <%= new Date() %>
 
 &nbsp;
 

@@ -2,6 +2,7 @@
 package org.onebeartoe.lizard.enclosure.schedules;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/schedule"})
 public class ViewScheduleServlet extends HttpServlet
 {
+    
+    private CrontabService crontabService = new CrontabService();
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
@@ -37,8 +41,9 @@ public class ViewScheduleServlet extends HttpServlet
             throws ServletException, IOException 
     {
         String cronTable = "# y m d h m s command" + System.lineSeparator() + "* * * * * 3 curl http://localhost:8080/lizard-enclosure/control-panel?uvLight=on";
-        
-        request.setAttribute("cronTable", cronTable);
+                
+        String entries = crontabService.formattedCurrentUserEntries();
+        request.setAttribute("cronTable", entries);
         
         ServletContext c = getServletContext();
         RequestDispatcher rd = c.getRequestDispatcher("/schedule/index.jsp");
@@ -54,5 +59,11 @@ public class ViewScheduleServlet extends HttpServlet
     public String getServletInfo() 
     {
         return "This is servlet to update the cron table schedule for the lizard enclosure.";
-    }    
+    }
+    
+    @Override
+    public void init()
+    {
+        crontabService = new CrontabService();
+    }
 }

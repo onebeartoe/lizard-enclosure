@@ -13,6 +13,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -31,7 +32,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
 {
     private Logger logger;
     
-    private static List<String> messages;
+    private volatile List<String> messages;
 
     private SerialPort serialPort;
 
@@ -98,7 +99,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         logger = Logger.getLogger(DashboardServlet.class.getName());
         
         messages = new ArrayList();
-        messages.add("servlet started up");
+        messages.add("servlet started");
         
         // the next line is for Raspberry Pi and 
         // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
@@ -149,10 +150,12 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
                 // add event listeners
                 serialPort.addEventListener(this);
                 serialPort.notifyOnDataAvailable(true);
+                
+                messages.add("servlet initialized");
             } 
             catch (Exception e) 
             {
-                    System.err.println(e.toString());
+                logger.log(Level.SEVERE, e.getMessage());
             }            
         }     
     }
@@ -163,13 +166,20 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
     @Override
     public synchronized void serialEvent(SerialPortEvent event) 
     {
+//        messages.add("message recieved: " + event.getEventType() );
         if(event.getEventType() == SerialPortEvent.DATA_AVAILABLE) 
         {
             try 
             {
-                String inputLine = input.readLine();
+                String inputLine = input.readLine() + "<br/>";
                 
                 messages.add(inputLine);
+                
+                int size = messages.size();
+                if(size == 50)
+                {
+                    messages.remove(size-1);
+                }
                 
                 System.out.println(inputLine);
             } 

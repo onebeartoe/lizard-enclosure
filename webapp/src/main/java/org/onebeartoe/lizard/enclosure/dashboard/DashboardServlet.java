@@ -2,6 +2,7 @@
 package org.onebeartoe.lizard.enclosure.dashboard;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -34,16 +35,29 @@ public class DashboardServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {        
-        StringBuilder stderr = null;
-        StringBuilder stdout = null;
+//        StringBuilder stderr = null;
+//        StringBuilder stdout = null;
             
         String command = "crontab -l";
         Commander c = new Commander(command);
         try 
         {                                
             int exitCode = c.execute();
-            stdout = c.getStdout();
-            stderr = c.getStderr();
+            List<String> stdoutList = c.getStdout();
+            List<String> stderrList = c.getStderr();
+
+            StringBuilder stderr = new StringBuilder();
+            StringBuilder stdout = new StringBuilder();
+            
+            for(String s : stdoutList)
+            {
+                stdout.append(s);
+            }
+            
+            for(String s : stderrList)
+            {
+                stderr.append(s);
+            }
             
             request.setAttribute("stdout", stdout.toString() );
             request.setAttribute("stderr", stderr.toString() );
