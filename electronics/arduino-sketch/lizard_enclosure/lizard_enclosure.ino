@@ -38,7 +38,7 @@ float internalFahrenheitTemperature;
 #define MODES_DAY_TIME 10
 #define MODES_NIGHT_TIME 11
 
-long SERIAL_LCD_SENSOR_INTERVAL = 1000 * 10;
+long LCD_INTERVAL = 1000 * 5;
 long previousLcdUdateMillis = 0;        // will store last time LCD was updated
 
 int currentMode = MODES_DAY_TIME;
@@ -67,10 +67,9 @@ void loop()
     
   externalTemperatureSensor();  
   pirSensor();
-  humidityTemperatureSensor();  
+  humidityTemperatureSensor();
   
-  lcdOutput();
-  serialOutput();  // to Raspberry Pi
+  output();
 }
 
 void setup() 

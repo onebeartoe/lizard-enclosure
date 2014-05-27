@@ -9,5 +9,5 @@ public enum ArduinoMessageTypes
 {
     FEEDER,
     MODE_TOGGLE,
-    SENSOR_READING    
+    SENSOR_READING
 }

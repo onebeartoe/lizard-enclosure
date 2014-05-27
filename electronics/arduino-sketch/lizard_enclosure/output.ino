@@ -1,12 +1,12 @@
 
 /**
-*  Show the status of the sensors, switching between them after the SERIAL_LCD_SENSOR_INTERVAL
+*  Show the status of the sensors, switching between them after the LCD_INTERVAL
 */
 void lcdOutput()
 {
   unsigned long currentMillis = millis();
  
-  if(currentMillis - previousLcdUdateMillis > SERIAL_LCD_SENSOR_INTERVAL) 
+  if(currentMillis - previousLcdUdateMillis > LCD_INTERVAL)
   {
     // save the last time the LCD was updated
     previousLcdUdateMillis = currentMillis;
@@ -77,6 +77,12 @@ void moveServo()
   vineServo.detach();  
 }
 
+void output()
+{  
+  lcdOutput();
+  serialOutput();  // to Raspberry Pi    
+}
+
 void serialLcdPrintFloat(double number, uint8_t digits) 
 { 
   // Handle negative numbers
@@ -112,6 +118,9 @@ void serialLcdPrintFloat(double number, uint8_t digits)
   } 
 }
 
+/**
+ * This function is called to write data to the Raspberry Pi over the serial connection.
+ */
 void serialOutput()
 {
   serialOutputHumidityTemperature();
@@ -126,14 +135,22 @@ void serialOutputHumidityTemperature()
   } 
   else 
   {
-    if(debugInternalTempAndHumidity)
+//    if(debugInternalTempAndHumidity)
     {
-      Serial.print("Humidity:"); 
+      Serial.print("SENSOR_READING:INTERNAL_HUMIDITY:"); 
       Serial.println(humidity);    
+
+      delay(1000);
   
-      Serial.print("Temperature:"); 
-      Serial.print(internalCelsiusTemperature);
-      Serial.println("C");      
+      Serial.print("SENSOR_READING:INTERNAL_TEMPERATURE:"); 
+      Serial.print(internalFahrenheitTemperature);
+      Serial.println("F");
+      
+      delay(1000);
+      
+      Serial.print("SENSOR_READING:EXTERNAL_TEMPERATURE:");
+      Serial.print(externalFahrenheit);
+      Serial.println("F");
     }
   }  
 }

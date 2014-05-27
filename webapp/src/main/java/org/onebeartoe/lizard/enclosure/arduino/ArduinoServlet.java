@@ -99,7 +99,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         logger = Logger.getLogger(DashboardServlet.class.getName());
         
         messages = new ArrayList();
-        messages.add("servlet started");
+        messages.add("servlet started" + "<br/>");
         
         // the next line is for Raspberry Pi and 
         // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
@@ -151,7 +151,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
                 serialPort.addEventListener(this);
                 serialPort.notifyOnDataAvailable(true);
                 
-                messages.add("servlet initialized");
+                messages.add("servlet initialized" + "<br/>");
             } 
             catch (Exception e) 
             {
@@ -176,9 +176,9 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
                 messages.add(inputLine);
                 
                 int size = messages.size();
-                if(size == 50)
+                if(size >= 50)
                 {
-                    messages.remove(size-1);
+                    messages.remove(0);
                 }
                 
                 System.out.println(inputLine);
