@@ -24,14 +24,8 @@ import javafx.stage.WindowEvent;
 import org.onebeartoe.lizard.enclosure.arduino.ArduinoMessage;
 
 /**
- * A chart that fills in the area between a line of data points and the axes.
- * Good for comparing accumulated totals over time.
- * 
-* @see javafx.scene.chart.Chart
- * @see javafx.scene.chart.Axis
- * @see javafx.scene.chart.NumberAxis
- * @related charts/line/LineChart
- * @related charts/scatter/ScatterChart
+ * A chart that fills in the multiple areas between lines of data points and the axes.
+ * Allows for comparing sensor values totals over time.
  */
 public class SensorReadingsVisualizer extends Application 
 {
@@ -40,10 +34,16 @@ public class SensorReadingsVisualizer extends Application
     private static final int MAX_DATA_POINTS = 50;
 
     private Series internalTemperatureSeries;
+    private ConcurrentLinkedQueue<Number> internalTemperatureMessageQueue = new ConcurrentLinkedQueue();
+    
+    private Series internalHumiditySeries;
+    private ConcurrentLinkedQueue<Number> internalHumidityMessageQueue = new ConcurrentLinkedQueue();
+    
+    private Series externalTemperatureSeries;
+    private ConcurrentLinkedQueue<Number> externalTemperatureMessageQueue = new ConcurrentLinkedQueue();
     
     private int xSeriesData = 0;
-    
-    private ConcurrentLinkedQueue<Number> internalTemperatureDataQueue = new ConcurrentLinkedQueue();
+        
     private ExecutorService executor;
     private AddToQueue addToQueue;
 
@@ -51,18 +51,57 @@ public class SensorReadingsVisualizer extends Application
     
     private Logger logger;
 
-    private void addDataToSeries() 
+    private final long dataRefreshDelay = 2000;
+    
+    private void addDataToSeries()
+    {
+        if( !internalTemperatureMessageQueue.isEmpty() )
+        {
+            AreaChart.Data data = new AreaChart.Data(xSeriesData++, internalTemperatureMessageQueue.remove());
+            internalTemperatureSeries.getData().add(data);
+        }        
+        // remove points to keep us at no more than MAX_DATA_POINTS
+        if(internalTemperatureSeries.getData().size() > MAX_DATA_POINTS) 
+        {
+            internalTemperatureSeries.getData().remove(0, internalTemperatureSeries.getData().size() - MAX_DATA_POINTS);
+        }
+        
+        if( !internalHumidityMessageQueue.isEmpty() )
+        {
+            AreaChart.Data data = new AreaChart.Data(xSeriesData-1, internalHumidityMessageQueue.remove() );
+            internalHumiditySeries.getData().add(data);
+        }
+        if(internalHumiditySeries.getData().size() > MAX_DATA_POINTS)
+        {
+            internalHumiditySeries.getData().remove(0, internalHumiditySeries.getData().size() - MAX_DATA_POINTS);
+        }
+        
+        if( !externalTemperatureMessageQueue.isEmpty() )
+        {
+            AreaChart.Data data = new AreaChart.Data(xSeriesData-1, externalTemperatureMessageQueue.remove() );
+            externalTemperatureSeries.getData().add(data);
+        }
+        if(externalTemperatureSeries.getData().size() > MAX_DATA_POINTS)
+        {
+            externalTemperatureSeries.getData().remove(0, externalTemperatureSeries.getData().size() - MAX_DATA_POINTS);
+        }
+                
+        // update 
+        xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
+        xAxis.setUpperBound(xSeriesData-1);
+    }
+    
+    private void addDataToSeriesOriginal() 
     {
         // add 20 numbers to the plot+
         for(int i = 0; i < 20; i++) 
         { 
-            if( internalTemperatureDataQueue.isEmpty() ) 
+            if( internalTemperatureMessageQueue.isEmpty() ) 
             {
                 break;
             }
-            
-//                                                   increment after!          
-            AreaChart.Data data = new AreaChart.Data(xSeriesData++, internalTemperatureDataQueue.remove());
+                   
+            AreaChart.Data data = new AreaChart.Data(xSeriesData++, internalTemperatureMessageQueue.remove());
             internalTemperatureSeries.getData().add(data);
         }
         
@@ -99,14 +138,20 @@ public class SensorReadingsVisualizer extends Application
         };
         sc.setAnimated(false);
         sc.setId("liveAreaChart");
-        sc.setTitle("Internal Temperature Chart");
+        sc.setTitle("Lizard Enclosure Sensor Readings Chart");
 
-        //-- Chart Series
+        // internal temperature Series
         internalTemperatureSeries = new AreaChart.Series<Number, Number>();
-        internalTemperatureSeries.setName("Area Chart Series");
-        sc.getData().add(internalTemperatureSeries);
+        internalTemperatureSeries.setName("Internal Temperature");
+        sc.getData().add(internalTemperatureSeries);        
         
-//        sc.getData().
+        externalTemperatureSeries = new AreaChart.Series<Number, Number>();
+        externalTemperatureSeries.setName("External Temperature");
+        sc.getData().add(externalTemperatureSeries);
+        
+        internalHumiditySeries = new AreaChart.Series<Number, Number>();
+        internalHumiditySeries.setName("Internal Humidity");
+        sc.getData().add(internalHumiditySeries);
 
         primaryStage.setScene(new Scene(sc));
         
@@ -127,7 +172,6 @@ public class SensorReadingsVisualizer extends Application
         init(primaryStage);
         primaryStage.show();
 
-        //-- Prepare Executor Services
         executor = Executors.newCachedThreadPool();
         addToQueue = new AddToQueue();
         executor.execute(addToQueue);
@@ -148,7 +192,7 @@ public class SensorReadingsVisualizer extends Application
             try 
             {
                 String u = "http://192.168.15.30:9080/lizard-enclosure/arduino/sensor/readings/raw";
-                u = "http://localhost:8080/lizard-enclosure/arduino/sensor/readings/raw/mock";
+//                u = "http://localhost:8080/lizard-enclosure/arduino/sensor/readings/raw/mock";
                 u += "?lastId=" + lastId;
                 u += "&t=" + (new Date()).getTime();
                 URL url = new URL(u);
@@ -166,14 +210,26 @@ public class SensorReadingsVisualizer extends Application
                     {
                         case INTERNAL_TEMPERATURE:
                         {
-                            internalTemperatureDataQueue.add(am.sensorValue);
+                            internalTemperatureMessageQueue.add(am.sensorValue);
+                            System.out.println(inputLine);
+                            
+                            break;
+                        }
+                        case EXTERNAL_TEMPERATURE:
+                        {
+                            externalTemperatureMessageQueue.add(am.sensorValue);
+                            System.out.println(inputLine);
+                            
+                            break;
+                        }
+                        case INTERNAL_HUMIDITY:
+                        {
+                            internalHumidityMessageQueue.add(am.sensorValue);
                             System.out.println(inputLine);
                             
                             break;
                         }
                     }
-                    
-//                    System.out.println(inputLine);
                 }
                 in.close();
                 
@@ -181,9 +237,8 @@ public class SensorReadingsVisualizer extends Application
                 {
                     lastId = am.id;
                 }
-                
-                // this is the delay between data refreshes
-                Thread.sleep(2500);
+
+                Thread.sleep(dataRefreshDelay);
                 
                 executor.execute(this);
             } 
@@ -194,7 +249,9 @@ public class SensorReadingsVisualizer extends Application
         }
     }
 
-    //-- Timeline gets called in the JavaFX Main thread
+    /**
+     * Timeline gets called in the JavaFX Main thread
+     */ 
     private void prepareTimeline() 
     {        
         // Every frame to take any data from queue and add to chart
@@ -205,9 +262,9 @@ public class SensorReadingsVisualizer extends Application
             public void handle(long now) 
             {
                 addDataToSeries();
+//                addDataToSeriesOriginal();
             }
         }.start();
     }
-
 
 }
