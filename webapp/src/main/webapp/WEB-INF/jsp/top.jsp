@@ -17,12 +17,14 @@
 
         
   <br/>
-  
-  <%= new Date() %>
 
-&nbsp;
-
-        <div id="grailsLogo">                  
+        <!-- 
+            style="width: 85%; margin-left: auto; margin-right: auto;"
+        -->
+        <div id="grailsLogo" >
+          <%= new Date() %>
+          <br/>
+          &nbsp;
           <a href="">
             <img src="http://electronics.onebeartoe.org/images/onebeartoe-logo-clear.gif" alt="onebeartoe.net" border="0" width="76" height="34"/>
             <img src="http://electronics.onebeartoe.org/images/onebeartoe-text.png" alt="onebeartoe.net" border="0" width="210" height="40"/>

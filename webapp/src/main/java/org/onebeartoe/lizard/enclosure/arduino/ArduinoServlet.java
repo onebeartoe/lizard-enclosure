@@ -108,23 +108,33 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
         CommPortIdentifier portId = null;
-        Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
-
-        //First, Find an instance of serial port as set in PORT_NAMES.
-        while (portEnum.hasMoreElements()) 
+                
+        try
         {
-                CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-                System.out.println("port ID: " + currPortId);
-                for (String portName : PORT_NAMES) 
-                {
-                        System.out.println("trying: " + portName);
-                        if (currPortId.getName().equals(portName)) 
-                        {
-                                portId = currPortId;
-                                break;
-                        }
-                }
+            Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
+            //First, Find an instance of serial port as set in PORT_NAMES.
+            while (portEnum.hasMoreElements()) 
+            {
+                    CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
+                    System.out.println("port ID: " + currPortId);
+                    for (String portName : PORT_NAMES) 
+                    {
+                            System.out.println("trying: " + portName);
+                            if (currPortId.getName().equals(portName)) 
+                            {
+                                    portId = currPortId;
+                                    break;
+                            }
+                    }
+            }            
         }
+        catch(NoClassDefFoundError e)
+        {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            String m = "Error Occured: " + e.getMessage() + "<br/>";
+            messages.add(m);
+        }
+        
         if (portId == null) 
         {
                 System.out.println("Could not find COM port.");

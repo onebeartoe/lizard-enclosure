@@ -101,7 +101,7 @@ public class DashboardServlet extends HttpServlet
         request.setAttribute("internTemperature", internTemerature.sensorValue);
         request.setAttribute("externalTemperature", externalTemperature.sensorValue);
         
-        RequestDispatcher rd = context.getRequestDispatcher("/index.jsp");
+        RequestDispatcher rd = context.getRequestDispatcher("/dashboard.jsp");
         rd.forward(request, response);
     }
 }
