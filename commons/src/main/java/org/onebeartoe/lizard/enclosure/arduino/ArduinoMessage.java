@@ -16,31 +16,45 @@ public class ArduinoMessage
 {
     private ArduinoMessageTypes messageType;
     
+    public ArduinoSensorTypes sensorType;
+    
     private String details;
     
     public Long id;
     
     public Double sensorValue;
     
-    public static ArduinoMessage fromLine(String line)
+    public static ArduinoMessage fromLine(String line) throws Exception
     {
-        int endIndex = line.indexOf(":");
-        String s = line.substring(0, endIndex);
+        String [] strs = line.split(":");
+        
+        if(strs.length != 4)
+        {
+            throw new Exception("the line must contain at least 4 parameters");
+        }
+        
+        String s = strs[0];
         Long id = new Long(s);
         ArduinoMessage message = new ArduinoMessage();
         message.id = id;
         
-        int lastIndex = line.lastIndexOf(":") + 1;
-        s = line.substring(lastIndex);
+        s = strs[1];
+        ArduinoMessageTypes messageType = ArduinoMessageTypes.valueOf(s);
+        message.messageType = messageType;
+
+        s = strs[2];
+        ArduinoSensorTypes sensorType = ArduinoSensorTypes.valueOf(s);
+        message.sensorType = sensorType;
         
+        s = strs[3];        
         if( s.toUpperCase().endsWith("F") )
         {
             s = s.substring(0, s.length()-1);
         }
-        
         Double d = new Double(s);
         message.sensorValue = d;
         
         return message;
     }
+    
 }
