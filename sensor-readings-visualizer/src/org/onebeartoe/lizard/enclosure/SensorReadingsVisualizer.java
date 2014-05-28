@@ -12,12 +12,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.onebeartoe.lizard.enclosure.arduino.ArduinoMessage;
 
 /**
@@ -36,16 +39,44 @@ public class SensorReadingsVisualizer extends Application
     
     private static final int MAX_DATA_POINTS = 50;
 
-    private Series series;
+    private Series internalTemperatureSeries;
+    
     private int xSeriesData = 0;
+    
     private ConcurrentLinkedQueue<Number> internalTemperatureDataQueue = new ConcurrentLinkedQueue();
     private ExecutorService executor;
     private AddToQueue addToQueue;
-//    private Timeline timeline2;
+
     private NumberAxis xAxis;    
     
     private Logger logger;
 
+    private void addDataToSeries() 
+    {
+        // add 20 numbers to the plot+
+        for(int i = 0; i < 20; i++) 
+        { 
+            if( internalTemperatureDataQueue.isEmpty() ) 
+            {
+                break;
+            }
+            
+//                                                   increment after!          
+            AreaChart.Data data = new AreaChart.Data(xSeriesData++, internalTemperatureDataQueue.remove());
+            internalTemperatureSeries.getData().add(data);
+        }
+        
+        // remove points to keep us at no more than MAX_DATA_POINTS
+        if(internalTemperatureSeries.getData().size() > MAX_DATA_POINTS) 
+        {
+            internalTemperatureSeries.getData().remove(0, internalTemperatureSeries.getData().size() - MAX_DATA_POINTS);
+        }
+        
+        // update 
+        xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
+        xAxis.setUpperBound(xSeriesData-1);
+    }
+    
     private void init(Stage primaryStage) 
     {
         logger = Logger.getLogger(getClass().getName());
@@ -71,12 +102,23 @@ public class SensorReadingsVisualizer extends Application
         sc.setTitle("Internal Temperature Chart");
 
         //-- Chart Series
-        series = new AreaChart.Series<Number, Number>();
-        series.setName("Area Chart Series");
-        sc.getData().add(series);
+        internalTemperatureSeries = new AreaChart.Series<Number, Number>();
+        internalTemperatureSeries.setName("Area Chart Series");
+        sc.getData().add(internalTemperatureSeries);
+        
 //        sc.getData().
 
         primaryStage.setScene(new Scene(sc));
+        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() 
+        {
+            @Override
+            public void handle(WindowEvent t) 
+            {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
     }
 
     @Override 
@@ -100,6 +142,7 @@ public class SensorReadingsVisualizer extends Application
 
     private class AddToQueue implements Runnable 
     {
+        @Override
         public void run() 
         {
             try 
@@ -139,8 +182,6 @@ public class SensorReadingsVisualizer extends Application
                     lastId = am.id;
                 }
                 
-//              internalTemperatureDataQueue.add(Math.random());
-                
                 // this is the delay between data refreshes
                 Thread.sleep(2500);
                 
@@ -155,10 +196,11 @@ public class SensorReadingsVisualizer extends Application
 
     //-- Timeline gets called in the JavaFX Main thread
     private void prepareTimeline() 
-    {
+    {        
         // Every frame to take any data from queue and add to chart
         new AnimationTimer() 
         {
+            // is this the proper Thread to kill in primaryStage.setOnCloseRequest() ????
             @Override 
             public void handle(long now) 
             {
@@ -167,22 +209,5 @@ public class SensorReadingsVisualizer extends Application
         }.start();
     }
 
-    private void addDataToSeries() 
-    {
-        for (int i = 0; i < 20; i++) 
-        { //-- add 20 numbers to the plot+
-            if (internalTemperatureDataQueue.isEmpty()) break;
-            series.getData().add(new AreaChart.Data(xSeriesData++, internalTemperatureDataQueue.remove()));
-        }
-        
-        // remove points to keep us at no more than MAX_DATA_POINTS
-        if (series.getData().size() > MAX_DATA_POINTS) 
-        {
-            series.getData().remove(0, series.getData().size() - MAX_DATA_POINTS);
-        }
-        
-        // update 
-        xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
-        xAxis.setUpperBound(xSeriesData-1);
-    }
+
 }
