@@ -57,4 +57,9 @@ public class ArduinoMessage
         return message;
     }
     
+    public String toLine()
+    {
+        return id + ":" + ArduinoMessageTypes.SENSOR_READING.name() + ":" + sensorType.name() + ":" + sensorValue;
+    }
+    
 }

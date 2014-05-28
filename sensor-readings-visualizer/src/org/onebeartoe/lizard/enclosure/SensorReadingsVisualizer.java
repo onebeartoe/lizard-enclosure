@@ -104,7 +104,9 @@ public class SensorReadingsVisualizer extends Application
         {
             try 
             {
-                String u = "http://192.168.15.30:9080/lizard-enclosure/arduino/sensor/readings/raw?lastId=" + lastId;
+                String u = "http://192.168.15.30:9080/lizard-enclosure/arduino/sensor/readings/raw";
+                u = "http://localhost:8080/lizard-enclosure/arduino/sensor/readings/raw/mock";
+                u += "?lastId=" + lastId;
                 u += "&t=" + (new Date()).getTime();
                 URL url = new URL(u);
                 InputStream instream = url.openStream();

@@ -9,3 +9,5 @@
 /webapp/target/
 
 /commons/target/
+/sensor-readings-visualizer/build/
+/sensor-readings-visualizer/dist/
