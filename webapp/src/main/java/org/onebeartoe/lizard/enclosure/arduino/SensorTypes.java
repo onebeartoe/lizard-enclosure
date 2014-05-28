@@ -2,7 +2,6 @@
 package org.onebeartoe.lizard.enclosure.arduino;
 
 /**
- *
  * @author URHM020
  */
 public enum SensorTypes 

@@ -20,6 +20,8 @@ public class ArduinoMessage
     
     public Long id;
     
+    public Double sensorValue;
+    
     public static ArduinoMessage fromLine(String line)
     {
         int endIndex = line.indexOf(":");
@@ -27,6 +29,17 @@ public class ArduinoMessage
         Long id = new Long(s);
         ArduinoMessage message = new ArduinoMessage();
         message.id = id;
+        
+        int lastIndex = line.lastIndexOf(":") + 1;
+        s = line.substring(lastIndex);
+        
+        if( s.toUpperCase().endsWith("F") )
+        {
+            s = s.substring(0, s.length()-1);
+        }
+        
+        Double d = new Double(s);
+        message.sensorValue = d;
         
         return message;
     }
