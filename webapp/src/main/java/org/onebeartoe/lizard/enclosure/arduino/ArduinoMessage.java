@@ -17,4 +17,17 @@ public class ArduinoMessage
     private ArduinoMessageTypes messageType;
     
     private String details;
+    
+    public Long id;
+    
+    public static ArduinoMessage fromLine(String line)
+    {
+        int endIndex = line.indexOf(":");
+        String s = line.substring(0, endIndex);
+        Long id = new Long(s);
+        ArduinoMessage message = new ArduinoMessage();
+        message.id = id;
+        
+        return message;
+    }
 }

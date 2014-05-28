@@ -3,14 +3,7 @@
 *  Show the status of the sensors, switching between them after the LCD_INTERVAL
 */
 void lcdOutput()
-{
-  unsigned long currentMillis = millis();
- 
-  if(currentMillis - previousLcdUdateMillis > LCD_INTERVAL)
-  {
-    // save the last time the LCD was updated
-    previousLcdUdateMillis = currentMillis;
-    
+{    
     // switch what is being displayed
     lcdOutputMode++;
     if(lcdOutputMode == LCD_OUTPUT_MODES_COUNT)
@@ -40,10 +33,11 @@ void lcdOutput()
       }
       default:
       {
-        
+//        slcd.clear();
+        slcd.setCursor(0, 0);    
+        slcd.print("default :)");
       }
     }
-  }
 }
 
 void lcdOutputExternalTemperature()
@@ -79,8 +73,17 @@ void moveServo()
 
 void output()
 {  
-  lcdOutput();
-  serialOutput();  // to Raspberry Pi    
+  unsigned long currentMillis = millis();
+ 
+  if(currentMillis - previousLcdUdateMillis > LCD_INTERVAL)
+  {
+    // save the last time the LCD was updated
+    previousLcdUdateMillis = currentMillis;
+    
+    lcdOutput();
+    serialOutput(currentMillis);  // to Raspberry Pi    
+  }  
+
 }
 
 void serialLcdPrintFloat(double number, uint8_t digits) 
@@ -121,12 +124,12 @@ void serialLcdPrintFloat(double number, uint8_t digits)
 /**
  * This function is called to write data to the Raspberry Pi over the serial connection.
  */
-void serialOutput()
+void serialOutput(long id)
 {
-  serialOutputHumidityTemperature();
+  serialOutputHumidityTemperature(id);
 }
 
-void serialOutputHumidityTemperature()
+void serialOutputHumidityTemperature(long id)
 {
   // check if the internal humidity and temperature are valid, if they are NaN (not a number) then something went wrong!
   if (isnan(internalCelsiusTemperature) || isnan(humidity)) 
@@ -137,18 +140,21 @@ void serialOutputHumidityTemperature()
   {
 //    if(debugInternalTempAndHumidity)
     {
-      Serial.print("SENSOR_READING:INTERNAL_HUMIDITY:"); 
+      Serial.print(id);      
+      Serial.print(":SENSOR_READING:INTERNAL_HUMIDITY:");
       Serial.println(humidity);    
 
       delay(1000);
   
-      Serial.print("SENSOR_READING:INTERNAL_TEMPERATURE:"); 
+      Serial.print(id);      
+      Serial.print(":SENSOR_READING:INTERNAL_TEMPERATURE:"); 
       Serial.print(internalFahrenheitTemperature);
       Serial.println("F");
       
       delay(1000);
       
-      Serial.print("SENSOR_READING:EXTERNAL_TEMPERATURE:");
+      Serial.print(id);      
+      Serial.print(":SENSOR_READING:EXTERNAL_TEMPERATURE:");
       Serial.print(externalFahrenheit);
       Serial.println("F");
     }

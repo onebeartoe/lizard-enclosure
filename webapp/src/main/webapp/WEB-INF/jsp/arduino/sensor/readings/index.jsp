@@ -7,7 +7,10 @@
                 <div>
                     <c:forEach items="${messages}" var="element"> 
                       <tr>
-                        <td>${element}</td>
+                          <td>
+                              ${element}
+                              <br/>
+                          </td>
                       </tr>
                     </c:forEach>                    
                 </div>

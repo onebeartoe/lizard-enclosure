@@ -33,6 +33,8 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
     private Logger logger;
     
     private volatile List<String> messages;
+    
+    public static final String ARDUINO_MESSAGES = "Arduino_Messages";
 
     private SerialPort serialPort;
 
@@ -171,7 +173,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         {
             try 
             {
-                String inputLine = input.readLine() + "<br/>";
+                String inputLine = input.readLine();
                 
                 messages.add(inputLine);
                 
@@ -189,6 +191,9 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
             }
         }
         // Ignore all the other eventTypes, but you should consider the other ones.
+        
+        ServletContext servletContext = getServletContext();
+        servletContext.setAttribute(ARDUINO_MESSAGES, messages);
     }    
     
 }

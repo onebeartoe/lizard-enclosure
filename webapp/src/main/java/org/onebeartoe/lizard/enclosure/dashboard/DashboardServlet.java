@@ -21,7 +21,7 @@ import org.onebeartoe.Commander;
 @WebServlet(urlPatterns = {"/dashboard"})
 public class DashboardServlet extends HttpServlet
 {
-    Logger logger;
+    private Logger logger;
 
     @Override
     public void init() throws ServletException 
