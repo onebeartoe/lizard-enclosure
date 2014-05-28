@@ -10,4 +10,6 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 public class LizardEnclosure 
 {
     public GpioPinDigitalOutput humidifierPin;
+    
+    public GpioPinDigitalOutput uvLightPin;
 }

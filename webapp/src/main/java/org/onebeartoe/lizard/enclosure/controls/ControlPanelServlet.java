@@ -34,7 +34,7 @@ public class ControlPanelServlet extends HttpServlet
             
     private GpioController gpio;
     
-    private GpioPinDigitalOutput uvLightPin;
+    private static GpioPinDigitalOutput uvLightPin;
     
     @Override
     public void destroy()
@@ -94,7 +94,7 @@ public class ControlPanelServlet extends HttpServlet
         return "This is webapp to control and monitor a lizard enclosure.";
     }
 
-    private void humidifier(LizardEnclosure enclosure, HttpServletRequest request) 
+    public static void humidifier(LizardEnclosure enclosure, HttpServletRequest request) 
     {        
         String humidifierNextState;
         String humidifierImagePath;
@@ -144,6 +144,8 @@ public class ControlPanelServlet extends HttpServlet
             uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
                                                         ultravioletLightsId, 
                                                         PinState.LOW);
+            
+            enclosure.uvLightPin = uvLightPin;
         }
         catch(UnsatisfiedLinkError e)
         {
@@ -168,10 +170,9 @@ public class ControlPanelServlet extends HttpServlet
             throws ServletException, IOException 
     {            
         ServletContext servletContext = getServletContext();
-
-        LizardEnclosure enclosure = (LizardEnclosure) servletContext.getAttribute("lizardEnclosure");
+        LizardEnclosure enclosure = (LizardEnclosure) servletContext.getAttribute(LIZARD_ENCLOSURE_ID);
         
-        humidifier( enclosure, request);
+        humidifier(enclosure, request);
         
         uvLight(request);
         
@@ -181,23 +182,33 @@ public class ControlPanelServlet extends HttpServlet
         rd.forward(request, response);
     }
     
-    private void uvLight(HttpServletRequest request)
+    /**
+     * correct this the so that it is used the way that humidity() is used
+     * @param request 
+     */
+    public static void uvLight(HttpServletRequest request)
     {
         String power = request.getParameter("uvLight");
-
+        String imagePath = "unknown.png";
         // Send the appropriate message to the GPIO on the Pi
         if( power != null && uvLightPin != null)
         {
             if( power.equalsIgnoreCase("on") ) 
             {
                 uvLightPin.high();                
+                
+                imagePath = "on.png";
             }
             else if( power.equalsIgnoreCase("off") )
             {
                 uvLightPin.low();
+                
+                imagePath = "off.png";
             }
-        }        
+        }
+        
         request.setAttribute("uvLightState", power);
+        request.setAttribute("uvLightsImagePath", imagePath);
     }
     
 }
