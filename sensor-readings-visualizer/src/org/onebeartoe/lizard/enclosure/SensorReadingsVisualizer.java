@@ -138,7 +138,7 @@ public class SensorReadingsVisualizer extends Application
         };
         sc.setAnimated(false);
         sc.setId("liveAreaChart");
-        sc.setTitle("Lizard Enclosure Sensor Readings Chart");
+        sc.setTitle("Lizard Enclosure Sensor Readings");
 
         // internal temperature Series
         internalTemperatureSeries = new AreaChart.Series<Number, Number>();
