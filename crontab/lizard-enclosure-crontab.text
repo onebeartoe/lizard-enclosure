@@ -1,5 +1,5 @@
 # pi@raspberrypi ~ $ sudo crontab -l
 # m   h   dom mon dow   command
 
-30 6 *   *   *     curl http://localhost:9080/lizard-enclosure/control-panel?uvLight=on
-45 18 *   *   *     curl http://localhost:9080/lizard-enclosure/control-panel?uvLight=off
+30 6 *   *   *     curl http://localhost:9080/lizard-enclosure/controls?uvLight=on
+45 18 *   *   *     curl http://localhost:9080/lizard-enclosure/controls?uvLight=off

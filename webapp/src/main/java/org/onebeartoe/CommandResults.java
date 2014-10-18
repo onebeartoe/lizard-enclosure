@@ -6,6 +6,7 @@ import java.util.List;
 /**
  *
  * @author Roberto Marquez
+ * @deprecated Use https://github.com/onebeartoe/java-libraries instead
  */
 public class CommandResults 
 {
