@@ -31,14 +31,13 @@
 	</repository>
   </repositories>
   
-  <dependencies>
-      
-      <dependency>
-     <groupId>jstl</groupId>
-     <artifactId>jstl</artifactId>
-     <version>1.2</version>
-     <!--scope>provided</scope-->
- </dependency>
+    <dependencies>      
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+            <!--scope>provided</scope-->
+        </dependency>
  
       <dependency>
         <groupId>org.onebeartoe.lizard.enclosure</groupId>
@@ -66,13 +65,18 @@
       <scope>test</scope>
     </dependency>
 
-     <dependency>
-      <groupId>org.rxtx</groupId>
-      <artifactId>rxtx</artifactId>
-      <version>2.1.7</version>
-    </dependency>    
-            
-  </dependencies>
+        <dependency>
+            <groupId>org.onebeartoe.electronics.raspberry.pi</groupId>  
+            <artifactId>photorama-raspberry-pi</artifactId>  
+            <version>1.0-SNAPSHOT</version>            
+        </dependency>
+
+        <dependency>
+            <groupId>org.rxtx</groupId>
+            <artifactId>rxtx</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+    </dependencies>
   
   <build>
     <finalName>lizard-enclosure</finalName>

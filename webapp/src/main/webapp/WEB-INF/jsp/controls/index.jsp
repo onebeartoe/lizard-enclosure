@@ -40,3 +40,21 @@
                 </center>
 	    </div>                        
 	</div>
+
+	<div class="copyspace">
+	    <h3>Lizard Enclosure - Camera</h3>
+          
+            <div class="featuredProject">
+                <br/>
+                
+                <center>                    
+                    <input type="checkbox" id="cameraCheckbox">
+                    <label for="cameraCheckbox">enabled</label>
+                    
+                    <br/>
+                    <br/>
+
+                    <button>Take Snapshot</button>
+                </center>
+	    </div>                        
+	</div>

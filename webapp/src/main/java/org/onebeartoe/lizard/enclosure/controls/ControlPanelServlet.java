@@ -11,15 +11,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import org.onebeartoe.electronics.photorama.Camera;
+import org.onebeartoe.electronics.photorama.PhotoramaModes;
+import org.onebeartoe.electronics.photorama.RaspberryPiCamera;
 
 @WebServlet(urlPatterns = {"/controls"}, loadOnStartup = 1)
 public class ControlPanelServlet extends HttpServlet
@@ -31,10 +38,14 @@ public class ControlPanelServlet extends HttpServlet
     public static final String humidifierId = "Humidifier";
     
     public static final String ultravioletLightsId = "UltravioletLights";
+    
+    public static final String SELFIE_SENSOR_PIN = "SELFIE_SENSOR_PIN";
             
     private GpioController gpio;
     
     private static GpioPinDigitalOutput uvLightPin;
+    
+    private Logger logger;
     
     @Override
     public void destroy()
@@ -129,13 +140,32 @@ public class ControlPanelServlet extends HttpServlet
     {
         System.out.println("control panel servlet initialization");
         
+        logger = Logger.getLogger(ControlPanelServlet.class.getName());
+        
         LizardEnclosure enclosure = new LizardEnclosure();
+        
+        String userHome = System.getProperty("user.home");
+        
+        final String photosOutputDir = userHome + "lizard-enclosure/selfies";
+        
+        final Camera camera = new RaspberryPiCamera();
+        camera.setMode(PhotoramaModes.FOOT_PEDAL);
+        try
+        {
+            camera.setOutputPath(photosOutputDir);
+        }
+        catch (Exception ex)
+        {
+            String message = "An error occurred while setting the selfie output path";
+            logger.log(Level.SEVERE, message, ex);
+        }
+        enclosure.camera = camera;
         
         try
         {
             gpio = GpioFactory.getInstance();            
         
-            GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin( RaspiPin.GPIO_01, 
+            GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, 
                                                             humidifierId, 
                                                             PinState.LOW);
                         
@@ -146,6 +176,20 @@ public class ControlPanelServlet extends HttpServlet
                                                         PinState.LOW);
             
             enclosure.uvLightPin = uvLightPin;
+            
+            GpioPinDigitalInput selfieSensorPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06,
+                                                        SELFIE_SENSOR_PIN,
+                                                        PinPullResistance.PULL_DOWN);
+            
+            selfieSensorPin.addListener( new GpioPinListenerDigital()
+            {
+                @Override
+                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce)
+                {
+                    camera.takeSnapshot();
+                }
+            });
+            enclosure.selfieSensorPin = selfieSensorPin;
         }
         catch(UnsatisfiedLinkError e)
         {
@@ -184,7 +228,7 @@ public class ControlPanelServlet extends HttpServlet
     
     /**
      * correct this the so that it is used the way that humidity() is used
-     * @param request 
+     * @param the HTTP request received 
      */
     public static void uvLight(HttpServletRequest request)
     {
@@ -210,5 +254,4 @@ public class ControlPanelServlet extends HttpServlet
         request.setAttribute("uvLightState", power);
         request.setAttribute("uvLightsImagePath", imagePath);
     }
-    
 }
