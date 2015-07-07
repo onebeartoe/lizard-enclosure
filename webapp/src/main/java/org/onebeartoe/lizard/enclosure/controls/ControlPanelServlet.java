@@ -13,10 +13,8 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.PinState;
 import com.pi4j.io.gpio.RaspiPin;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +25,8 @@ import javax.servlet.ServletContext;
 import org.onebeartoe.electronics.photorama.Camera;
 import org.onebeartoe.electronics.photorama.PhotoramaModes;
 import org.onebeartoe.electronics.photorama.RaspberryPiCamera;
+import org.onebeartoe.lizard.enclosure.LizardEnclosureSevice;
+import org.onebeartoe.lizard.enclosure.RaspberryPiLizardEnclosureSevice;
 
 @WebServlet(urlPatterns = {"/controls"}, loadOnStartup = 1)
 public class ControlPanelServlet extends HttpServlet
@@ -38,14 +38,14 @@ public class ControlPanelServlet extends HttpServlet
     public static final String humidifierId = "Humidifier";
     
     public static final String ultravioletLightsId = "UltravioletLights";
-    
-    public static final String SELFIE_SENSOR_PIN = "SELFIE_SENSOR_PIN";
             
     private GpioController gpio;
     
     private static GpioPinDigitalOutput uvLightPin;
     
     private Logger logger;
+    
+    private LizardEnclosureSevice lizardEnclosureSevice;
     
     @Override
     public void destroy()
@@ -140,6 +140,8 @@ public class ControlPanelServlet extends HttpServlet
     {
         System.out.println("control panel servlet initialization");
         
+        
+
         logger = Logger.getLogger(ControlPanelServlet.class.getName());
         
         LizardEnclosure enclosure = new LizardEnclosure();
@@ -161,34 +163,28 @@ public class ControlPanelServlet extends HttpServlet
         }
         enclosure.camera = camera;
         
+        lizardEnclosureSevice = new RaspberryPiLizardEnclosureSevice(camera);
+        
         try
         {
             gpio = GpioFactory.getInstance();            
         
+// move this provistion call to the service
             GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, 
                                                             humidifierId, 
-                                                            PinState.LOW);
-                        
+                                                            PinState.LOW);                        
             enclosure.humidifierPin = humidifierPin;
-            
+
+// move this provistion call to the service            
             uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
                                                         ultravioletLightsId, 
-                                                        PinState.LOW);
-            
+                                                        PinState.LOW);            
             enclosure.uvLightPin = uvLightPin;
             
-            GpioPinDigitalInput selfieSensorPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06,
-                                                        SELFIE_SENSOR_PIN,
-                                                        PinPullResistance.PULL_DOWN);
-            
-            selfieSensorPin.addListener( new GpioPinListenerDigital()
-            {
-                @Override
-                public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent gpdsce)
-                {
-                    camera.takeSnapshot();
-                }
-            });
+            // selfies
+            GpioPinListenerDigital selfieListener = lizardEnclosureSevice.newSelfieListener();            
+            GpioPinDigitalInput selfieSensorPin = lizardEnclosureSevice.provisionSelfiePin(gpio);
+            selfieSensorPin.addListener(selfieListener);
             enclosure.selfieSensorPin = selfieSensorPin;
         }
         catch(UnsatisfiedLinkError e)
