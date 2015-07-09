@@ -139,8 +139,6 @@ public class ControlPanelServlet extends HttpServlet
     public void init()
     {
         System.out.println("control panel servlet initialization");
-        
-        
 
         logger = Logger.getLogger(ControlPanelServlet.class.getName());
         
@@ -167,7 +165,7 @@ public class ControlPanelServlet extends HttpServlet
         
         try
         {
-            gpio = GpioFactory.getInstance();            
+            gpio = GpioFactory.getInstance();        
         
 // move this provistion call to the service
             GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, 
