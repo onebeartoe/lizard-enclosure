@@ -1,16 +1,17 @@
 
+# Document where/how to install JNI!
 export JVM_ARGS=-Djava.library.path=/usr/lib/jni
 
 case $1 in
 start)
-        /opt/websphere/wlp/bin/server start
+        /opt/websphere-liberty-profile/wlp-8.5.5.5/server start
         ;;
 stop)
-        /opt/websphere/wlp/bin/server stop
+        /opt/websphere-liberty-profile/wlp-8.5.5.5/bin/server stop
         ;;
 restart)
-        /opt/websphere/wlp/bin/server stop
-        /opt/websphere/wlp/bin/server start
+        /opt/websphere-liberty-profile/wlp-8.5.5.5/bin/server stop
+        /opt/websphere-liberty-profile/wlp-8.5.5.5/bin/server start
         ;;
 esac
 exit 0
