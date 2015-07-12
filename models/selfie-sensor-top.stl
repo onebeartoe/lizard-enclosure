@@ -1,114 +1,226 @@
 solid selfie-sensor-top
-facet normal -1.0 0.0 0.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 0.0 11.248233668663278 0.0
-    vertex 0.0 11.248233668663278 1.6000000000000003
+    vertex 0.0 26.0 0.0
+    vertex 2.0 24.0 0.0
+    vertex 0.0 0.0 0.0
   endloop
 endfacet
-facet normal -1.0 0.0 0.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 0.0 11.248233668663278 0.0
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 0.0 37.248233668663275 0.0
+    vertex 2.0 24.0 0.0
+    vertex 0.0 26.0 0.0
+    vertex 111.0 26.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 0.0 11.248233668663278 1.6000000000000003
-    vertex 1.9999999999999998 13.248233668663277 1.6000000000000003
-    vertex 0.0 37.248233668663275 1.6000000000000003
+    vertex 2.0 24.0 0.0
+    vertex 111.0 26.0 0.0
+    vertex 109.0 24.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 1.9999999999999998 13.248233668663277 1.6000000000000003
-    vertex 0.0 11.248233668663278 1.6000000000000003
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
+    vertex 109.0 24.0 0.0
+    vertex 111.0 26.0 0.0
+    vertex 109.0 2.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 1.9999999999999998 13.248233668663277 1.6000000000000003
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 109.00000037218972 13.248233668663277 1.6000000000000003
+    vertex 0.0 0.0 0.0
+    vertex 2.0 2.0 0.0
+    vertex 111.0 0.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 109.00000037218972 13.248233668663277 1.6000000000000003
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 109.00000037218972 35.248233668663275 1.6000000000000003
+    vertex 2.0 2.0 0.0
+    vertex 0.0 0.0 0.0
+    vertex 2.0 24.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 1.9999999999999998 35.248233668663275 1.6000000000000003
-    vertex 111.00000037218972 37.248233668663275 1.6000000000000003
+    vertex 111.0 0.0 0.0
+    vertex 2.0 2.0 0.0
+    vertex 109.0 2.0 0.0
   endloop
 endfacet
-facet normal 0.0 0.0 1.0
+facet normal 0.0 0.0 -1.0
   outer loop
-    vertex 1.9999999999999998 35.248233668663275 1.6000000000000003
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 1.9999999999999998 13.248233668663277 1.6000000000000003
-  endloop
-endfacet
-facet normal 0.0 0.0 1.0
-  outer loop
-    vertex 111.00000037218972 37.248233668663275 1.6000000000000003
-    vertex 1.9999999999999998 35.248233668663275 1.6000000000000003
-    vertex 109.00000037218972 35.248233668663275 1.6000000000000003
+    vertex 111.0 0.0 0.0
+    vertex 109.0 2.0 0.0
+    vertex 111.0 26.0 0.0
   endloop
 endfacet
 facet normal 0.0 0.0 1.0
   outer loop
-    vertex 111.00000037218972 37.248233668663275 1.6000000000000003
-    vertex 109.00000037218972 35.248233668663275 1.6000000000000003
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
+    vertex 0.0 0.0 1.6
+    vertex 2.0 2.0 1.6
+    vertex 0.0 26.0 1.6
   endloop
 endfacet
-facet normal -0.0 1.0 0.0
+facet normal 0.0 0.0 1.0
   outer loop
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 111.00000037218972 37.248233668663275 0.0
-    vertex 0.0 37.248233668663275 0.0
+    vertex 2.0 2.0 1.6
+    vertex 0.0 0.0 1.6
+    vertex 111.0 0.0 1.6
   endloop
 endfacet
-facet normal -0.0 1.0 0.0
+facet normal 0.0 0.0 1.0
   outer loop
-    vertex 111.00000037218972 37.248233668663275 0.0
-    vertex 0.0 37.248233668663275 1.6000000000000003
-    vertex 111.00000037218972 37.248233668663275 1.6000000000000003
+    vertex 2.0 2.0 1.6
+    vertex 111.0 0.0 1.6
+    vertex 109.0 2.0 1.6
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 109.0 2.0 1.6
+    vertex 111.0 0.0 1.6
+    vertex 109.0 24.0 1.6
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 0.0 26.0 1.6
+    vertex 2.0 24.0 1.6
+    vertex 111.0 26.0 1.6
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 2.0 24.0 1.6
+    vertex 0.0 26.0 1.6
+    vertex 2.0 2.0 1.6
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 111.0 26.0 1.6
+    vertex 2.0 24.0 1.6
+    vertex 109.0 24.0 1.6
+  endloop
+endfacet
+facet normal 0.0 0.0 1.0
+  outer loop
+    vertex 111.0 26.0 1.6
+    vertex 109.0 24.0 1.6
+    vertex 111.0 0.0 1.6
   endloop
 endfacet
 facet normal 1.0 0.0 0.0
   outer loop
-    vertex 111.00000037218972 37.248233668663275 0.0
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 111.00000037218972 11.248233668663278 0.0
+    vertex 111.0 26.0 0.0
+    vertex 111.0 0.0 1.6
+    vertex 111.0 0.0 0.0
   endloop
 endfacet
 facet normal 1.0 0.0 0.0
   outer loop
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 111.00000037218972 37.248233668663275 0.0
-    vertex 111.00000037218972 37.248233668663275 1.6000000000000003
+    vertex 111.0 0.0 1.6
+    vertex 111.0 26.0 0.0
+    vertex 111.0 26.0 1.6
   endloop
 endfacet
 facet normal -0.0 -1.0 -0.0
   outer loop
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 0.0 11.248233668663278 0.0
-    vertex 111.00000037218972 11.248233668663278 0.0
+    vertex 111.0 0.0 1.6
+    vertex 0.0 0.0 0.0
+    vertex 111.0 0.0 0.0
   endloop
 endfacet
 facet normal -0.0 -1.0 -0.0
   outer loop
-    vertex 0.0 11.248233668663278 0.0
-    vertex 111.00000037218972 11.248233668663278 1.6000000000000003
-    vertex 0.0 11.248233668663278 1.6000000000000003
+    vertex 0.0 0.0 0.0
+    vertex 111.0 0.0 1.6
+    vertex 0.0 0.0 1.6
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 26.0 1.6
+    vertex 0.0 0.0 0.0
+    vertex 0.0 0.0 1.6
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 0.0 0.0
+    vertex 0.0 26.0 1.6
+    vertex 0.0 26.0 0.0
+  endloop
+endfacet
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 0.0 26.0 1.6
+    vertex 111.0 26.0 0.0
+    vertex 0.0 26.0 0.0
+  endloop
+endfacet
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 111.0 26.0 0.0
+    vertex 0.0 26.0 1.6
+    vertex 111.0 26.0 1.6
+  endloop
+endfacet
+facet normal -1.0 0.0 -0.0
+  outer loop
+    vertex 109.0 24.0 1.6
+    vertex 109.0 2.0 0.0
+    vertex 109.0 2.0 1.6
+  endloop
+endfacet
+facet normal -1.0 0.0 -0.0
+  outer loop
+    vertex 109.0 2.0 0.0
+    vertex 109.0 24.0 1.6
+    vertex 109.0 24.0 0.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 109.0 24.0 1.6
+    vertex 2.0 24.0 0.0
+    vertex 109.0 24.0 0.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 2.0 24.0 0.0
+    vertex 109.0 24.0 1.6
+    vertex 2.0 24.0 1.6
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex 2.0 24.0 0.0
+    vertex 2.0 2.0 1.6
+    vertex 2.0 2.0 0.0
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex 2.0 2.0 1.6
+    vertex 2.0 24.0 0.0
+    vertex 2.0 24.0 1.6
+  endloop
+endfacet
+facet normal -3.2943533674625e-018 1.0 -0.0
+  outer loop
+    vertex 2.0 2.0 1.6
+    vertex 109.0 2.0 0.0
+    vertex 2.0 2.0 0.0
+  endloop
+endfacet
+facet normal -3.2943533674625e-018 1.0 -0.0
+  outer loop
+    vertex 109.0 2.0 0.0
+    vertex 2.0 2.0 1.6
+    vertex 109.0 2.0 1.6
   endloop
 endfacet
 endsolid selfie-sensor-top
