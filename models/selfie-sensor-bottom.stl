@@ -1,0 +1,86 @@
+solid selfie-sensor-bottom
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 0.0 11.248233668663278 0.0
+    vertex 0.0 37.248233668663275 0.0
+  endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+  outer loop
+    vertex 0.0 11.248233668663278 0.0
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 111.00000037218972 11.248233668663278 0.0
+  endloop
+endfacet
+facet normal -0.0 -0.0 1.0
+  outer loop
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 0.0 37.248233668663275 3.0
+    vertex 0.0 11.248233668663278 3.0
+  endloop
+endfacet
+facet normal -0.0 -0.0 1.0
+  outer loop
+    vertex 0.0 37.248233668663275 3.0
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 111.00000037218972 37.248233668663275 3.0
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 37.248233668663275 3.0
+    vertex 0.0 11.248233668663278 0.0
+    vertex 0.0 11.248233668663278 3.0
+  endloop
+endfacet
+facet normal -1.0 0.0 0.0
+  outer loop
+    vertex 0.0 11.248233668663278 0.0
+    vertex 0.0 37.248233668663275 3.0
+    vertex 0.0 37.248233668663275 0.0
+  endloop
+endfacet
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 0.0 37.248233668663275 3.0
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 0.0 37.248233668663275 0.0
+  endloop
+endfacet
+facet normal -0.0 1.0 0.0
+  outer loop
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 0.0 37.248233668663275 3.0
+    vertex 111.00000037218972 37.248233668663275 3.0
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 111.00000037218972 11.248233668663278 0.0
+  endloop
+endfacet
+facet normal 1.0 0.0 0.0
+  outer loop
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 111.00000037218972 37.248233668663275 0.0
+    vertex 111.00000037218972 37.248233668663275 3.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 0.0 11.248233668663278 0.0
+    vertex 111.00000037218972 11.248233668663278 0.0
+  endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+  outer loop
+    vertex 0.0 11.248233668663278 0.0
+    vertex 111.00000037218972 11.248233668663278 3.0
+    vertex 0.0 11.248233668663278 3.0
+  endloop
+endfacet
+endsolid selfie-sensor-bottom
