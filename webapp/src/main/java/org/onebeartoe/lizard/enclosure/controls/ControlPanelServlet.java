@@ -143,22 +143,10 @@ public class ControlPanelServlet extends HttpServlet
         logger = Logger.getLogger(ControlPanelServlet.class.getName());
         
         LizardEnclosure enclosure = new LizardEnclosure();
-        
-        String userHome = System.getProperty("user.home");
-        
-        final String photosOutputDir = userHome + "lizard-enclosure/selfies";
-        
+                
         final Camera camera = new RaspberryPiCamera();
         camera.setMode(PhotoramaModes.FOOT_PEDAL);
-        try
-        {
-            camera.setOutputPath(photosOutputDir);
-        }
-        catch (Exception ex)
-        {
-            String message = "An error occurred while setting the selfie output path";
-            logger.log(Level.SEVERE, message, ex);
-        }
+        
         enclosure.camera = camera;
         
         lizardEnclosureSevice = new RaspberryPiLizardEnclosureSevice(camera);
@@ -171,18 +159,19 @@ public class ControlPanelServlet extends HttpServlet
             GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, 
                                                             humidifierId, 
                                                             PinState.LOW);                        
-            enclosure.humidifierPin = humidifierPin;
 
 // move this provistion call to the service            
             uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
                                                         ultravioletLightsId, 
                                                         PinState.LOW);            
-            enclosure.uvLightPin = uvLightPin;
-            
+                        
             // selfies
             GpioPinListenerDigital selfieListener = lizardEnclosureSevice.newSelfieListener();            
             GpioPinDigitalInput selfieSensorPin = lizardEnclosureSevice.provisionSelfiePin(gpio);
             selfieSensorPin.addListener(selfieListener);
+            
+            enclosure.humidifierPin = humidifierPin;
+            enclosure.uvLightPin = uvLightPin;
             enclosure.selfieSensorPin = selfieSensorPin;
         }
         catch(UnsatisfiedLinkError e)

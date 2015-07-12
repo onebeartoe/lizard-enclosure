@@ -23,10 +23,13 @@ import org.onebeartoe.system.Sleeper;
 public class SelfieSensorTest 
 {
     public static void main(String [] args)
-    {
+    {        
         GpioController gpio = GpioFactory.getInstance();
-        Camera camera = new RaspberryPiCamera();
         
+        String outpath = System.getProperty("user.home") + "/lizard-enclosure/photos";
+        Camera camera = new RaspberryPiCamera();
+        camera.setOutputPath(outpath);
+                
         LizardEnclosureSevice lizardEnclosureSevice = new RaspberryPiLizardEnclosureSevice(camera);
         
         GpioPinListenerDigital selfieListener = lizardEnclosureSevice.newSelfieListener();
@@ -34,7 +37,7 @@ public class SelfieSensorTest
         GpioPinDigitalInput selfieSensorPin = lizardEnclosureSevice.provisionSelfiePin(gpio);
         selfieSensorPin.addListener(selfieListener);
         
-        System.out.println("Ctrl+Z to quit");
+        System.out.println("Ctrl+C to quit");
         while(true)
         {
             Sleeper.sleepo(1000);
