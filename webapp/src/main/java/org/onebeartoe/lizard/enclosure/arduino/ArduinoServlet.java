@@ -22,7 +22,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.onebeartoe.lizard.enclosure.dashboard.DashboardServlet;
 
 /**
  * @author Roberto Marquez
@@ -74,7 +73,6 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
     @Override
     public void destroy()
     {
-        
         if (serialPort != null) 
         {
                 serialPort.removeEventListener();
@@ -91,20 +89,21 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         ServletContext context = getServletContext();
         RequestDispatcher rd = context.getRequestDispatcher("/arduino/sensor/readings/index.jsp");
         rd.forward(request, response);
-    }    
+    }
 
     @Override
     public void init() throws ServletException 
     {
         super.init();
         
-        logger = Logger.getLogger(DashboardServlet.class.getName());
+        logger = Logger.getLogger( getClass().getName() );
         
         messages = new ArrayList();
         messages.add("servlet started" + "<br/>");
         
-        // the next line is for Raspberry Pi and 
-        // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
+        // the next line is for Raspberry Pi,
+        // and gets us into the while loop,
+        // and was suggested here: http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
         System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
         CommPortIdentifier portId = null;
@@ -178,13 +177,12 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
     @Override
     public synchronized void serialEvent(SerialPortEvent event) 
     {
-//        messages.add("message recieved: " + event.getEventType() );
         if(event.getEventType() == SerialPortEvent.DATA_AVAILABLE) 
         {
             try 
             {
                 String inputLine = input.readLine();
-                
+
                 messages.add(inputLine);
                 
                 int size = messages.size();
@@ -204,6 +202,5 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
         
         ServletContext servletContext = getServletContext();
         servletContext.setAttribute(ARDUINO_MESSAGES, messages);
-    }    
-    
+    }
 }

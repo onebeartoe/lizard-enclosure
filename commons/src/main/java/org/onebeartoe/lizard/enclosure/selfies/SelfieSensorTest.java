@@ -22,7 +22,7 @@ import org.onebeartoe.system.Sleeper;
  */
 public class SelfieSensorTest 
 {
-    public static void main(String [] args)
+    public static void main(String [] args) throws Exception
     {        
         GpioController gpio = GpioFactory.getInstance();
         

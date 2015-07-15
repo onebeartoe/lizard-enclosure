@@ -24,13 +24,13 @@ public class ArduinoMessage
     
     public Double sensorValue;
     
-    public static ArduinoMessage fromLine(String line) throws Exception
+    public static ArduinoMessage fromLine(String line)
     {
         String [] strs = line.split(":");
         
         if(strs.length != 4)
         {
-            throw new Exception("the line must contain at least 4 parameters");
+            throw new IllegalArgumentException("the line must contain at least 4 parameters");
         }
         
         String s = strs[0];
