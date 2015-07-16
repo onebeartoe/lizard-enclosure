@@ -1,5 +1,10 @@
 # pi@raspberrypi ~ $ sudo crontab -l
+
 # m   h   dom mon dow   command
 
+# UV lights
 30 6 *   *   *     curl http://localhost:9080/lizard-enclosure/controls?uvLight=on
 45 18 *   *   *     curl http://localhost:9080/lizard-enclosure/controls?uvLight=off
+
+# update adafruit IO every 5 minutes
+*/5 * * * * http://localhost:9080/lizard-enclosure/cloud/update

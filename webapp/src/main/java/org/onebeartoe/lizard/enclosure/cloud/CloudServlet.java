@@ -74,9 +74,17 @@ public class CloudServlet extends HttpServlet
         {
             for(String l : lines)
             {
-                ArduinoMessage am = ArduinoMessage.fromLine(l);
+                try
+                {
+                    ArduinoMessage am = ArduinoMessage.fromLine(l);
 
-                amList.add(am);
+                    amList.add(am);
+                }
+                catch(Exception e)
+                {
+                    String message = "could not obtain Arduino message from: >" + l + "<";
+                    logger.log(Level.SEVERE, message, e);
+                }
             }
         }
         
