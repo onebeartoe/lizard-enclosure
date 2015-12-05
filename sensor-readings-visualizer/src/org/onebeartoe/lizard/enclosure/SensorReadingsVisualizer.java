@@ -1,3 +1,4 @@
+
 package org.onebeartoe.lizard.enclosure;
 
 import java.io.BufferedReader;
@@ -45,9 +46,10 @@ public class SensorReadingsVisualizer extends Application
     private int xSeriesData = 0;
         
     private ExecutorService executor;
+
     private AddToQueue addToQueue;
 
-    private NumberAxis xAxis;    
+    private NumberAxis xAxis;
     
     private Logger logger;
 
@@ -115,8 +117,8 @@ public class SensorReadingsVisualizer extends Application
         xAxis.setLowerBound(xSeriesData-MAX_DATA_POINTS);
         xAxis.setUpperBound(xSeriesData-1);
     }
-    
-    private void init(Stage primaryStage) 
+ 
+    private void initialize(Stage primaryStage) 
     {
         logger = Logger.getLogger(getClass().getName());
         
@@ -133,7 +135,7 @@ public class SensorReadingsVisualizer extends Application
             @Override 
             protected void dataItemAdded(Series<Number, Number> series, int itemIndex, Data<Number, Number> item) 
             {
-                // Overriden to remove symbols on each data point
+                ; // This method is overriden with empty statement, to remove symbols on each data point.
             }
         };
         sc.setAnimated(false);
@@ -169,7 +171,7 @@ public class SensorReadingsVisualizer extends Application
     @Override 
     public void start(Stage primaryStage) throws Exception 
     {
-        init(primaryStage);
+        initialize(primaryStage);
         primaryStage.show();
 
         executor = Executors.newCachedThreadPool();
@@ -266,5 +268,4 @@ public class SensorReadingsVisualizer extends Application
             }
         }.start();
     }
-
 }
