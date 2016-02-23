@@ -25,7 +25,7 @@ public class RaspberryPiLizardEnclosureSevice implements LizardEnclosureSevice
     
     private Camera camera;
     
-    private final long blackoutDuration = Duration.ofSeconds(20).toMillis();
+    private final long blackoutDuration = Duration.ofMinutes(20).toMillis();
     
     private long lastSnapshot = 0;
 
