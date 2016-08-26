@@ -180,16 +180,15 @@ public class ControlPanelServlet extends HttpServlet
             e.printStackTrace();            
         }
         
-        ServletContext servletContext;      
         try 
         {
-            servletContext = getApplicationContext();
+            ServletContext servletContext = getApplicationContext();
             servletContext.setAttribute(LIZARD_ENCLOSURE_ID, enclosure);
             servletContext.setAttribute(ultravioletLightsId, uvLightPin);
         } 
         catch (Exception ex) 
         {
-            Logger.getLogger(ControlPanelServlet.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }        
     }
 
