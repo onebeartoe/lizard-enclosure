@@ -144,11 +144,8 @@ public class ControlPanelServlet extends HttpServlet
         
         LizardEnclosure enclosure = new LizardEnclosure();
                 
-        final Camera camera = new RaspberryPiCamera();
-        camera.setMode(PhotoramaModes.FOOT_PEDAL);
-        
-        enclosure.camera = camera;
-        
+        Camera camera = initializeCamera(enclosure);
+
         lizardEnclosureSevice = new RaspberryPiLizardEnclosureSevice(camera);
         
         try
@@ -191,6 +188,16 @@ public class ControlPanelServlet extends HttpServlet
             logger.log(Level.SEVERE, null, ex);
         }        
     }
+    
+    private Camera initializeCamera(LizardEnclosure enclosure)
+    {
+        final Camera camera = new RaspberryPiCamera();
+        camera.setMode(PhotoramaModes.FOOT_PEDAL);
+        
+        enclosure.camera = camera;
+        
+        return camera;
+    }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
@@ -203,7 +210,6 @@ public class ControlPanelServlet extends HttpServlet
         uvLight(request);
         
         String DEFAULT_PAGE = "/controls/index.jsp";        
-//        ServletContext servletContext = getServletContext();
         RequestDispatcher rd = servletContext.getRequestDispatcher(DEFAULT_PAGE);
         rd.forward(request, response);
     }

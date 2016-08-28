@@ -31,13 +31,7 @@
         </repository>
     </repositories>
   
-    <dependencies>
-        <!--dependency>
-            <groupId>io.adafruit</groupId>
-            <artifactId>adafruit-io</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency-->
-        
+    <dependencies>        
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
@@ -105,6 +99,4 @@
             </plugin>
         </plugins>
     </build>
-  
-    <properties></properties>
 </project>
