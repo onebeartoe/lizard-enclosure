@@ -163,13 +163,15 @@ public class ControlPanelServlet extends HttpServlet
                                                         PinState.LOW);            
                         
             // selfies
-            GpioPinListenerDigital selfieListener = lizardEnclosureSevice.newSelfieListener();            
-            GpioPinDigitalInput selfieSensorPin = lizardEnclosureSevice.provisionSelfiePin(gpio);
-            selfieSensorPin.addListener(selfieListener);
+// uncomment the next 3 lines to enable selfies            
+//            GpioPinListenerDigital selfieListener = lizardEnclosureSevice.newSelfieListener();            
+//            GpioPinDigitalInput selfieSensorPin = lizardEnclosureSevice.provisionSelfiePin(gpio);
+//            selfieSensorPin.addListener(selfieListener);
             
             enclosure.humidifierPin = humidifierPin;
             enclosure.uvLightPin = uvLightPin;
-            enclosure.selfieSensorPin = selfieSensorPin;
+// Uncomment this next line, if/when selfies are re-enabled.            
+//            enclosure.selfieSensorPin = selfieSensorPin;
         }
         catch(UnsatisfiedLinkError e)
         {
