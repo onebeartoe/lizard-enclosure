@@ -35,12 +35,16 @@
           <scope>test</scope>
         </dependency>
 
-<!--                
         <dependency>
             <groupId>org.onebeartoe.electronics</groupId>
             <artifactId>photorama-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
--->        
+        
+        <dependency>
+            <groupId>org.onebeartoe.electronics</groupId>
+            <artifactId>photorama-raspberry-pi</artifactId>
+            <version>0.0.1-SNAPSHOT</version>            
+        </dependency>
     </dependencies>
 </project>
