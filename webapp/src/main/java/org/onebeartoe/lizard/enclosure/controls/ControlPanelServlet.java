@@ -153,11 +153,13 @@ public class ControlPanelServlet extends HttpServlet
             gpio = GpioFactory.getInstance();        
         
 // move this provistion call to the service
+            // This is GPIO pin #12 on the Raspberry Pi header.
             GpioPinDigitalOutput humidifierPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, 
                                                             humidifierId, 
                                                             PinState.LOW);                        
 
-// move this provistion call to the service            
+// move this provistion call to the service      
+            // This is GPIO pin #16 on the Raspberry Pi header.
             uvLightPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, 
                                                         ultravioletLightsId, 
                                                         PinState.LOW);            

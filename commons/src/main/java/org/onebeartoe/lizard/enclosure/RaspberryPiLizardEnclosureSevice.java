@@ -99,6 +99,7 @@ public class RaspberryPiLizardEnclosureSevice implements LizardEnclosureSevice
     @Override
     public GpioPinDigitalInput provisionSelfiePin(GpioController gpio) 
     {
+        // this is GPIO pin #25 on the Raspberry Pi header.
         GpioPinDigitalInput selfiePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_06,
                                                         SELFIE_SENSOR_PIN,
                                                         PinPullResistance.PULL_DOWN);
