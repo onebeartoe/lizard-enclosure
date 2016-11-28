@@ -7,4 +7,4 @@ The applicaition is delivered as a JEE web application deployed to a WebSphere L
 
 Check out the videos:
 
-https://www.youtube.com/playlist?list=PLp_e2n3Xt78ma2zrqglgA0T5wmwJUbQsH
+[![AWESOME](http://img.youtube.com/vi/PPojtb0KOoo/0.jpg)](https://www.youtube.com/playlist?list=PLp_e2n3Xt78ma2zrqglgA0T5wmwJUbQsH "AWESOME")
