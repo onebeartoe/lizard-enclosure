@@ -13,6 +13,18 @@
 
     <name>onebeartoe-lizard-enclosure-parent</name>
 
+    <repositories>
+        <repository>
+            <id>oss-snapshots-repo</id>
+            <name>Sonatype OSS Maven Repository</name>
+            <url>https://repository-onebeartoe.forge.cloudbees.com/snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+    
     <modules>
             <module>commons</module>
             <module>webapp</module>

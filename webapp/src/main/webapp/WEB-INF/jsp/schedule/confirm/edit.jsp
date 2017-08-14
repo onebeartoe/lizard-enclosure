@@ -18,9 +18,9 @@ ${newSchedlue}
                         </b>
                         old cron schedule:
                         <br/>
-<pre>                    
+<pre>
 ${cronTable}
-</pre>              
+</pre>
 
                         <input type="submit" value="Save">
                     </form>
