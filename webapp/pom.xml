@@ -18,19 +18,7 @@
     <name>onebeartoe-lizard-enclosure-webapp</name>
   
     <url>http://maven.apache.org</url>
-  
-    <repositories>
-        <repository>
-            <id>oss-snapshots-repo</id>
-            <name>Sonatype OSS Maven Repository</name>
-            <url>https://oss.sonatype.org/content/groups/public</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-  
+
     <dependencies>        
         <dependency>
             <groupId>jstl</groupId>
