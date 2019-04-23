@@ -1,13 +1,13 @@
 
 package org.onebeartoe.lizard.enclosure.cloud;
 
-import io.adafruit.AioKeyLoader;
-import io.adafruit.service.AdafruitIoService;
-import io.adafruit.service.ApacheAdafruitIoService;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.onebeartoe.web.adafruit.io.AdafruitIoService;
+import org.onebeartoe.web.adafruit.io.AioKeyLoader;
+import org.onebeartoe.web.adafruit.io.ApacheAdafruitIoService;
 
 /**
  * @author Roberto Marquez

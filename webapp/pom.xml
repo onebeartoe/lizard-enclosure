@@ -27,12 +27,12 @@
             <!--scope>provided</scope-->
         </dependency>
  
-         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
+        <dependency>
+            <groupId>org.onebeartoe</groupId>
+            <artifactId>onebeartoe-web</artifactId>
+            <version>1.0</version>
         </dependency>
-    
+
         <dependency>
             <groupId>org.onebeartoe.lizard.enclosure</groupId>
             <artifactId>lizard-enclosure</artifactId>
