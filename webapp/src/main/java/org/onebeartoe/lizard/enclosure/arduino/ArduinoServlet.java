@@ -168,7 +168,7 @@ public class ArduinoServlet extends HttpServlet implements SerialPortEventListen
             catch (Exception e) 
             {
                 logger.log(Level.SEVERE, e.getMessage());
-            }            
+            }
         }     
     }
 
